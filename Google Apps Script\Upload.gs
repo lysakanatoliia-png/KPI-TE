@@ -1,11 +1,11 @@
 /** =======================
  *  KPI Backend (Google Apps Script)
  *  TZ: America/Los_Angeles
- *  Version: 3.31-full-debug-all
+ *  Version: 4.0-weighted-kpi
  * ======================= */
 
 const TZ = 'America/Los_Angeles';
-const VERSION = '3.31-full-debug-all';
+const VERSION = '4.0-weighted-kpi';
 
 // ВСТАВ СВІЙ ID ↓↓↓
 const SPREADSHEET_ID = '1TKaz2GYQy05GWUwg2s6LgI-orU88Qua5otND7QSBcr8';
@@ -116,9 +116,13 @@ function getHeadersForSheet(name){
     return ["Timestamp","Tag","Message","Payload"];
   if([SHEETS.SUM_D,SHEETS.SUM_M,SHEETS.SUM_Q].includes(name)){
     const cats=[...new Set(readTable(SHEETS.CONFIG_IND).rows.map(r=>String(r.Category).trim()))].filter(c=>c);
-    if(name===SHEETS.SUM_D) return ["Date","RoomCode","StaffId","StaffName"].concat(cats.map(c=>"%"+c)).concat(["%Total"]);
-    if(name===SHEETS.SUM_M) return ["Month","RoomCode","StaffId","StaffName"].concat(cats.map(c=>"%"+c)).concat(["%Total"]);
-    if(name===SHEETS.SUM_Q) return ["Quarter","RoomCode","StaffId","StaffName"].concat(cats.map(c=>"%"+c)).concat(["%Total"]);
+    let timeCol;
+    if(name===SHEETS.SUM_D) timeCol="Date";
+    else if(name===SHEETS.SUM_M) timeCol="Month";
+    else timeCol="Quarter";
+    return [timeCol,"RoomCode","StaffId","StaffName"]
+      .concat(cats.map(c=>"%"+c))
+      .concat(["%Total","ExpectedWeight","FailedWeight","TotalWeight"]);
   }
   return ["Unknown"];
 }
@@ -255,83 +259,150 @@ function saveIndividualKPI(payload){
   }catch(e){ logError('saveIndividualKPI',String(e),payload); return {ok:false,error:String(e)}; }
 }
 
-/* ========== SUMMARIES with Scope-based weighting ========== */
+/* ========== SUMMARIES with Weight-based scoring ========== */
+
+/* Weight from Config_Indicators (default 1) */
+function getWeightForIndicator(configRows, roomCode, slotCode, category, indicator) {
+  var r = String(roomCode || '').trim();
+  var s = String(slotCode || '').trim();
+  var c = String(category || '').trim();
+  var i = String(indicator || '').trim();
+  for (var k = 0; k < configRows.length; k++) {
+    var row = configRows[k];
+    var cr = String(row.RoomCode || '').trim();
+    var cs = String(row.SlotCode || '').trim();
+    var cc = String(row.Category || '').trim();
+    var ci = String(row.Indicator || '').trim();
+    if (cc !== c || ci !== i) continue;
+    if (cr !== '' && cr !== '*' && cr !== r) continue;
+    if (cs !== '' && cs !== '*' && cs !== s) continue;
+    var w = row.Weight;
+    if (w === '' || w === null || w === undefined) return 1;
+    return Math.max(0, Number(w)) || 1;
+  }
+  return 1;
+}
+
 function _allCategories(){
   return [...new Set(readTable(SHEETS.CONFIG_IND).rows.map(r=>String(r.Category).trim()))].filter(c=>c);
 }
 
+/**
+ * Weight-based Summary calculation.
+ * level = 'day' | 'month' | 'quarter'
+ *
+ * Math per (dateKey, RoomCode, StaffId):
+ *   Per indicator: weight = Config_Indicators.Weight (default 1)
+ *   %Category = ROUND((catPassed / catExpected) × 100)   [weighted]
+ *   Team score  = (teamPassed / teamExpected) × 100       [weighted]
+ *   Ind  score  = (indPassed  / indExpected)  × 100       [weighted]
+ *   %Total = ROUND(teamScore × 0.8 + indScore × 0.2)     [80/20 blend]
+ *   %Total (Admin) = ROUND(teamScore)                     [team only]
+ *
+ * Extra columns: ExpectedWeight, FailedWeight, TotalWeight
+ */
 function recomputeSummary(level){
   const form = readTable(SHEETS.FORM).rows;
   const config = readTable(SHEETS.CONFIG_IND).rows;
   const categories = _allCategories();
-  const grouped = {};
 
+  // ---- Group by (dateKey, RoomCode, StaffId) ----
+  const grouped = {};
   form.forEach(r=>{
-    const dStr = String(r.Date).trim();
+    const dStr = String(r.Date||'').trim();
     if (!dStr){ logError('recomputeSummary','Empty date',r); return; }
 
     const room = String(r.RoomCode||'').trim();
     const sid  = String(r.StaffId||'team').trim();
 
     let keyId;
-    if(level==='day') keyId = dStr;
-    if(level==='month') keyId = getMonthKey(dStr);
-    if(level==='quarter') keyId = getQuarterKey(dStr);
+    if(level==='day')     keyId = dStr;
+    else if(level==='month')   keyId = getMonthKey(dStr);
+    else if(level==='quarter') keyId = getQuarterKey(dStr);
+    else return;
 
     const fullKey = keyId+'|'+room+'|'+sid;
-    if(!grouped[fullKey]) grouped[fullKey] = {staffName:r.StaffName, cats:{}};
-    if(!grouped[fullKey].cats[r.Category]) grouped[fullKey].cats[r.Category] = [];
-    grouped[fullKey].cats[r.Category].push(Number(r.Value||0));
+    if(!grouped[fullKey]) grouped[fullKey] = { staffName: r.StaffName, rows: [] };
+    grouped[fullKey].rows.push(r);
   });
 
+  // ---- Compute weighted scores per group ----
   const out = [];
   for(const k in grouped){
     const g = grouped[k];
-    const [id,room,sid] = k.split('|');
-    const row = [id,room,sid,g.staffName];
+    const [dateKey, room, sid] = k.split('|');
+    const staffName = g.rows[0] ? String(g.rows[0].StaffName||'') : '';
 
-    let totalTeam=[], totalInd=[];
-    categories.forEach(cat=>{
-      const arr = g.cats[cat] || [];
+    // Accumulators: per-category
+    const catExpected = {}, catPassed = {};
+    categories.forEach(cat=>{ catExpected[cat] = 0; catPassed[cat] = 0; });
 
-      const conf = config.find(r => r.Category === cat);
-      const scope = conf ? String(conf.Scope||'team').toLowerCase() : 'team';
-      const isRelevant = conf && (
-        String(conf.RoomCode).trim() === room || String(conf.RoomCode).trim() === '*'
-      );
+    // Accumulators: per-scope (Team / Individual)
+    let teamExpected = 0, teamPassed = 0;
+    let indExpected  = 0, indPassed  = 0;
 
-      let v;
-      if(arr.length){
-      v = Math.round(arr.reduce((a,b)=>a+b,0)/arr.length*100);
-      } else {
-      v = ''; // нічого не показуємо, якщо нема реальних даних
+    // Accumulators: grand total (for weight columns)
+    let totalExpected = 0, totalPassed = 0;
+
+    g.rows.forEach(row=>{
+      const weight = getWeightForIndicator(config, row.RoomCode, row.SlotCode, row.Category, row.Indicator);
+      let value = Number(row.Value);
+      if(isNaN(value)) value = 0;
+
+      const passed = weight * value;
+
+      // Grand total
+      totalExpected += weight;
+      totalPassed   += passed;
+
+      // Per-category
+      const cat = String(row.Category||'').trim();
+      if(catExpected.hasOwnProperty(cat)){
+        catExpected[cat] += weight;
+        catPassed[cat]   += passed;
       }
 
-
-      row.push(v);
-
-      if(v !== ''){
-        if(scope === 'individual'){ totalInd.push(v); }
-        else { totalTeam.push(v); }
+      // Per-scope (from FormData.StaffScope: 'Team' or 'Individual')
+      const scope = String(row.StaffScope||'Team').trim().toLowerCase();
+      if(scope === 'individual'){
+        indExpected  += weight;
+        indPassed    += passed;
+      } else {
+        teamExpected += weight;
+        teamPassed   += passed;
       }
     });
 
-    let avgTeam = totalTeam.length ? totalTeam.reduce((a,b)=>a+b,0)/totalTeam.length : 0;
-    let avgInd  = totalInd.length ? totalInd.reduce((a,b)=>a+b,0)/totalInd.length : 0;
+    // ---- Build output row ----
+    const row = [dateKey, room, sid, staffName];
+
+    // Category % columns (informational slices)
+    categories.forEach(cat=>{
+      const exp = catExpected[cat];
+      row.push(exp > 0 ? Math.round((catPassed[cat] / exp) * 100) : '');
+    });
+
+    // %Total with 80/20 blend
+    const avgTeam = teamExpected > 0 ? (teamPassed / teamExpected) * 100 : 0;
+    const avgInd  = indExpected  > 0 ? (indPassed  / indExpected)  * 100 : 0;
 
     let weighted;
-    if (room && room.trim().toLowerCase() === "admin") {
-      // Для кімнати Admin рахуємо тільки Team KPI (без 80/20)
-      weighted = avgTeam ? Math.round(avgTeam) : '';
+    if(room && room.trim().toLowerCase() === 'admin'){
+      // Admin: тільки Team KPI
+      weighted = teamExpected > 0 ? Math.round(avgTeam) : '';
     } else {
       // Стандартне 80/20
-      weighted = (totalTeam.length||totalInd.length) ? Math.round(avgTeam*0.8+avgInd*0.2) : '';
+      weighted = (teamExpected > 0 || indExpected > 0) ? Math.round(avgTeam * 0.8 + avgInd * 0.2) : '';
     }
-    
-
     row.push(weighted);
 
-    logDebug("recomputeSummary","Weighted total",{staff:sid,avgTeam,avgInd,weighted});
+    // Technical weight columns
+    const failedWeight = totalExpected - totalPassed;
+    row.push(totalExpected);   // ExpectedWeight
+    row.push(failedWeight);    // FailedWeight
+    row.push(totalExpected);   // TotalWeight
+
+    logDebug("recomputeSummary","Weighted row",{staff:sid, totalExpected, totalPassed, avgTeam:Math.round(avgTeam), avgInd:Math.round(avgInd), weighted});
     out.push(row);
   }
   return out;
@@ -339,24 +410,27 @@ function recomputeSummary(level){
 
 function recomputeSummaryDay(){
   const out = recomputeSummary('day');
-  const sh = getSheet(SHEETS.SUM_D); ensureHeader(SHEETS.SUM_D);
-  if(sh.getLastRow()>1) sh.getRange(2,1,sh.getLastRow()-1,sh.getLastColumn()).clearContent();
+  const sh = getSheet(SHEETS.SUM_D);
+  sh.clearContents();          // очищуємо все, включно з заголовками
+  ensureHeader(SHEETS.SUM_D);  // записує нові заголовки (з колонками ваг)
   if(out.length) sh.getRange(2,1,out.length,out[0].length).setValues(out);
   return out.length;
 }
 
 function recomputeSummaryMonth(){
   const out = recomputeSummary('month');
-  const sh = getSheet(SHEETS.SUM_M); ensureHeader(SHEETS.SUM_M);
-  if(sh.getLastRow()>1) sh.getRange(2,1,sh.getLastRow()-1,sh.getLastColumn()).clearContent();
+  const sh = getSheet(SHEETS.SUM_M);
+  sh.clearContents();
+  ensureHeader(SHEETS.SUM_M);
   if(out.length) sh.getRange(2,1,out.length,out[0].length).setValues(out);
   return out.length;
 }
 
 function recomputeSummaryQuarter(){
   const out = recomputeSummary('quarter');
-  const sh = getSheet(SHEETS.SUM_Q); ensureHeader(SHEETS.SUM_Q);
-  if(sh.getLastRow()>1) sh.getRange(2,1,sh.getLastRow()-1,sh.getLastColumn()).clearContent();
+  const sh = getSheet(SHEETS.SUM_Q);
+  sh.clearContents();
+  ensureHeader(SHEETS.SUM_Q);
   if(out.length) sh.getRange(2,1,out.length,out[0].length).setValues(out);
   return out.length;
 }
