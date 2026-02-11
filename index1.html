@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Admin KPI Checklist</title>
+<style>
+  :root{--bg:#f3f7ff;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e5e7eb;--accent:#2563eb;--ok:#16a34a;--bad:#dc2626}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  .wrap{max-width:980px;margin:28px auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--accent);border-radius:18px;box-shadow:0 24px 40px rgba(2,6,23,.06);padding:22px}
+  h1{margin:0 0 14px;font-size:24px;text-align:center}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  label{font-size:12px;color:var(--muted)}
+
+  .control{height:44px;display:flex;align-items:center;border:1px solid var(--border);
+           border-radius:12px;background:#fff;padding:0 12px;font-size:14px}
+
+  .section{margin-top:28px;padding-top:20px;border-top:1px dashed var(--border)}
+  .row{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 0}
+  .note{font-size:12px;color:var(--muted);text-align:center}
+  .error{font-size:12px;color:var(--bad);margin-top:6px;white-space:pre-line;text-align:center}
+
+  /* Кнопки */
+  .btn{border:2px solid var(--accent);border-radius:14px;padding:14px 22px;font-weight:700;cursor:pointer;
+       display:inline-flex;gap:8px;align-items:center;justify-content:center;min-width:200px;margin:20px 0;}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+  .btn.full{width:100%}
+  .btn.finish{background:#F4C542;border-color:#F4C542;color:#000;min-width:260px;}
+
+  .center{display:flex;justify-content:center;align-items:center}
+  .spinner{width:16px;height:16px;border:3px solid rgba(0,0,0,.15);border-top-color:var(--accent);
+           border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;display:inline-block;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Multi dropdown */
+  .multi{position:relative}
+  .multi-toggle{display:flex;align-items:center;cursor:pointer;position:relative}
+  .multi-toggle.control{padding-right:28px}
+  .multi-toggle span{flex:1 1 auto;min-width:0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;}
+  .multi-caret{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.7}
+
+  /* ↓↓↓ прибрано "хвіст" унизу панелей */
+  .multi-panel{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--border);
+               border-radius:12px;box-shadow:0 12px 24px rgba(2,6,23,.08);z-index:10;padding:8px;max-height:260px;overflow:auto}
+  .opt{display:flex;align-items:center;gap:8px;padding:6px;border-radius:8px;cursor:pointer}
+  .opt:hover{background:#f8fafc}
+  .opt input{margin:0}
+
+  /* Панель дій у мультивиборі Staff — компактна, без зайвого відступу знизу */
+  .panel-actions{
+    position:sticky; bottom:0; background:#fff;
+    border-top:1px solid var(--border); padding:8px; margin:8px -8px -8px;
+    display:flex; gap:8px; align-items:center; justify-content:flex-end;
+  }
+  .mini-btn{border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:10px; padding:8px 5px; cursor:pointer; font-weight:700}
+  .mini-btn.secondary{background:#fff;color:var(--accent)}
+  .badge{display:inline-block; padding:4px 8px; font-size:12px; border-radius:999px; background:#eef2ff; color:#334155}
+
+  /* Таблиці */
+  table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px;border-radius:12px;overflow:hidden;table-layout:fixed}
+  th,td{padding:10px 12px;border:1px solid var(--border);white-space:normal;word-break:keep-all;overflow-wrap:break-word;vertical-align:top}
+  th{background:#eef2ff;text-align:left;color:#334155;font-size:13px;font-weight:600}
+  td{background:#fff;font-size:16px}
+  td select, td textarea{font-size:16px;line-height:1.4}
+  td select, select.control{width:100%;min-height:36px;padding:8px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:14px}
+  textarea{width:100%;min-height:36px;padding:8px;border:1px solid var(--border);border-radius:8px;resize:vertical}
+
+  .hidden{display:none}
+  .req{color:var(--bad);font-weight:700;margin-left:4px}
+  .invalid{border-color:var(--bad)!important; box-shadow:0 0 0 2px rgba(220,38,38,.12)}
+  .inline-err{font-size:11px;color:var(--bad);margin-top:6px}
+
+  .seg{display:inline-grid;grid-auto-flow:column;background:#f1f5f9;border-radius:999px;padding:14px 6px;gap:6px;margin:18px 0;}
+  .seg button{border:0;padding:14px 30px;border-radius:999px;font-weight:700;cursor:pointer;opacity:.9;min-width:120px;font-size:14px;}
+  .seg button[data-val="no"]{background:#fee2e2;color:#b91c1c}
+  .seg button[data-val="yes"]{background:#dcfce7;color:#15803d}
+  .seg button.active{box-shadow:0 0 0 2px rgba(0,0,0,.08) inset;opacity:1}
+
+  .header{display:flex;align-items:center;gap:16px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px}
+  .header img{height:60px;object-fit:contain}
+  .header-text{display:flex;flex-direction:column}
+  .hero{position:relative;border:1px solid #2563eb;border-radius:14px;padding:6px;background:#fff;overflow:hidden;display:flex;justify-content:center;align-items:center}
+  .hero img{width:calc(100% - 8px);height:calc(320px - 8px);object-fit:cover;border-radius:8px;display:block}
+  .hero-text{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;padding:0 10px}
+  .hero-text .brand{font-weight:900;font-size:26px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+  .hero-text .brand-sub{font-size:16px;font-weight:700;color:#f8fafc;text-shadow:0 2px 5px rgba(0,0,0,.7);margin-top:6px}
+
+  /* Теми */
+  body.theme-pink{--accent:#ec4899;--bg:#fff7fb}
+  body.theme-green{--accent:#16a34a;--bg:#f7fef9}
+  body.theme-blue{--accent:#2563eb;--bg:#eef7ff}
+
+  .footer{display:flex;justify-content:center;align-items:center;font-size:12px;color:#64748b;margin:28px 0}
+  @media (max-width:860px){ .grid{grid-template-columns:1fr 1fr} }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- Start screen -->
+  <div class="card" id="startScreen">
+    <div class="header">
+      <img src="logo.svg" alt="Logo"/>
+      <div class="header-text">
+        <div class="brand">Tiny Einstein Child Development Center</div>
+        <div class="brand-sub">KPI Control Panel</div>
+      </div>
+    </div>
+    <div class="hero">
+      <img src="samples.jpg" alt="Kindergarten"/>
+      <div class="hero-text">
+        <div class="brand">Tiny Einstein Child Development Center</div>
+        <div class="brand-sub">KPI Control Panel</div>
+      </div>
+    </div>
+    <div class="center" style="margin:22px 0">
+      <button class="btn primary full" id="startBtn">Start new check</button>
+    </div>
+  </div>
+
+  <!-- Main form -->
+  <div class="card hidden" id="formCard">
+    <div class="header">
+      <img src="logo.svg" alt="Logo"/>
+      <div class="header-text">
+        <div class="brand">Tiny Einstein Child Development Center</div>
+        <div class="brand-sub">KPI Control Panel</div>
+      </div>
+    </div>
+
+    <h1>Admin Checklist — KPI</h1>
+
+    <!-- Header -->
+    <div class="grid">
+      <!-- Room -->
+      <div class="field">
+        <label>Room <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="roomToggle">
+            <span id="roomLabel"><span class="spinner"></span> Loading rooms…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="roomPanel"></div>
+        </div>
+        <div id="roomErr" class="error hidden"></div>
+      </div>
+
+      <!-- Time Slot -->
+      <div class="field">
+        <label>Time Slot <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="slotToggle">
+            <span id="slotLabel"><span class="spinner"></span> Loading slots…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="slotPanel"></div>
+        </div>
+        <div id="slotErr" class="error hidden"></div>
+      </div>
+
+      <!-- Date -->
+      <div class="field">
+        <label>Date (MM-DD-YYYY) <span class="req">*</span></label>
+        <input type="date" id="date" class="control"/>
+        <div id="dateErr" class="error hidden"></div>
+      </div>
+
+      <!-- Staff Present -->
+      <div class="field">
+        <label>Staff Present (multi) <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="staffToggle">
+            <span id="staffLabel"><span class="spinner"></span> Loading staff…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="staffPanel"></div>
+        </div>
+        <div id="staffErr" class="error hidden"></div>
+      </div>
+    </div>
+
+    <!-- Team KPI -->
+    <div id="teamBlock" class="section hidden">
+      <div class="row">
+        <div style="text-align:center">
+          <div style="font-weight:700">Team KPI — Review</div>
+          <div class="note">Press “Show checklist” to load indicators. Comment required when “Not checked”.</div>
+        </div>
+      </div>
+
+      <div class="center" id="teamPrepWrap">
+        <button class="btn primary" id="teamPrepBtn">Show checklist</button>
+      </div>
+
+      <div id="teamLoading" class="center hidden" style="margin-top:12px">
+        <div class="spinner"></div><span>Loading team indicators...</span>
+      </div>
+
+      <div id="teamTableWrap" class="hidden">
+        <table>
+          <thead>
+            <tr><th>Category</th><th>Indicator</th><th>Check</th><th>Comments</th></tr>
+          </thead>
+          <tbody id="teamBody"></tbody>
+        </table>
+        <div class="center"><div id="teamValMsg" class="error hidden"></div></div>
+        <div class="center">
+          <button class="btn primary" id="teamConfirm"><span>Confirm Selection</span></button>
+        </div>
+      </div>
+      <div class="note">After confirmation, Team KPI is locked and you proceed to Individual KPI.</div>
+    </div>
+
+    <!-- Individual gate -->
+    <div id="indGate" class="section hidden">
+      <div class="row">
+        <div style="text-align:center">
+          <div style="font-weight:700">Individual KPI</div>
+          <div class="note">Were there any individual KPI breaches during this slot?</div>
+        </div>
+      </div>
+      <div class="center">
+        <div class="seg" id="breachSeg">
+          <button type="button" data-val="no" class="active">No</button>
+          <button type="button" data-val="yes">Yes</button>
+        </div>
+      </div>
+      <div class="note center" id="indHint">Select a person below to proceed.</div>
+    </div>
+
+    <!-- Individual details -->
+    <div id="indBlock" class="section hidden">
+      <div class="field" style="max-width:420px;margin:0 auto">
+        <label>Who had a breach? <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="indStaffToggle">
+            <span id="indStaffLabel"><span class="spinner"></span> Loading staff…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="indStaffPanel"></div>
+        </div>
+        <div id="indErr" class="error hidden"></div>
+      </div>
+
+      <div id="indLoading" class="center hidden" style="margin-top:12px">
+        <div class="spinner"></div><span>Loading individual indicators...</span>
+      </div>
+
+      <div id="indTableWrap" class="hidden">
+        <table>
+          <thead>
+            <tr><th>Category</th><th>Indicator</th><th>Check</th><th>Comments</th></tr>
+          </thead>
+          <tbody id="indBody"></tbody>
+        </table>
+        <div class="center"><div id="indValMsg" class="error hidden"></div></div>
+        <div class="center">
+          <button class="btn primary" id="finishInd"><span>Confirm Selection</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finish -->
+    <div id="finishNo" class="section hidden">
+      <div class="center">
+        <button class="btn finish" id="finishNoBtn"><span>Confirm & Finish</span></button>
+      </div>
+    </div>
+
+    <div id="msg" class="note"></div>
+  </div>
+</div>
+
+<div class="footer">© 2025 Tiny Einstein Child Development Center</div>
+
+<script>
+// ===== DEBUG =====
+const DEBUG = true;
+function log(...a){ if(DEBUG) console.log(...a); }
+function info(...a){ if(DEBUG) console.info(...a); }
+function warn(...a){ if(DEBUG) console.warn(...a); }
+function err(...a){ if(DEBUG) console.error(...a); }
+function group(label){ if(DEBUG) console.group(label); }
+function groupEnd(){ if(DEBUG) console.groupEnd(); }
+function time(label){ if(DEBUG) console.time(label); }
+function timeEnd(label){ if(DEBUG) console.timeEnd(label); }
+
+// Перехоплюємо глобальні помилки
+window.addEventListener('error', e => {
+  err('[window.onerror]', e.message, {filename:e.filename, lineno:e.lineno, colno:e.colno});
+});
+window.addEventListener('unhandledrejection', e => {
+  err('[unhandledrejection]', e.reason);
+});
+
+// ===== READ з локальної бази/снапшота =====
+const DATA_URL = '/kpi/data.json';            // локальна БД (читання)
+let SNAP = null;
+
+// ===== REAL WRITE API via same-origin proxy =====
+const API_URL = '/kpi/proxy2.php'; 
+const UPDATE_URL = '/kpi/update.php?run=1';
+
+async function api(action, payload = {}) {
+  const url = `${API_URL}?fn=${encodeURIComponent(action)}`;
+  info('[API] ->', action, payload);
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+    credentials: 'same-origin',
+  });
+
+  if (!res.ok) {
+    const txt = await res.text().catch(()=>'');
+    throw new Error(`HTTP ${res.status} ${res.statusText} ${txt}`.trim());
+  }
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error || 'Backend error');
+  info('[API] ok', action, json);
+  return json;
+}
+
+
+
+async function refreshDataFromGAS(){
+  info('[UPDATE] start', UPDATE_URL);
+  const res = await fetch(UPDATE_URL, { cache:'no-store' });
+  let json = null;
+  try { json = await res.json(); } catch(_) {}
+  if (!res.ok || !json?.ok) {
+    throw new Error(json?.error || `HTTP ${res.status}`);
+  }
+  info('[UPDATE] ok', json);
+  return json;
+}
+
+
+
+
+const G = {
+  roomCode: r => r.RoomCode ?? r.roomCode ?? r.code ?? r.id ?? r.Room ?? null,
+  roomName: r => r.RoomName ?? r.roomName ?? r.name ?? r.title ?? (G.roomCode(r)||'Room'),
+  slotCode: s => s.SlotCode ?? s.slotCode ?? s.code ?? s.id ?? s.Slot ?? null,
+  slotLabel:s => s.SlotLabel ?? s.label ?? s.name ?? (G.slotCode(s)||'Slot'),
+  staffId:  s => s.StaffId ?? s.staffId ?? s.id ?? s.code ?? null,
+  staffName:s => s.StaffName ?? s.staffName ?? s.name ?? s.fullName ?? 'Staff',
+  staffRooms:s => s.AssignedRooms ?? s.Rooms ?? s.RoomCodes ?? s.RoomCode ?? s.rooms ?? null,
+  indScope: i => i.Scope ?? i.scope ?? i.Type ?? i.type ?? null,
+  indRoom:  i => i.RoomCode ?? i.roomCode ?? i.Room ?? null,
+  indSlot:  i => i.SlotCode ?? i.slotcode ?? i.Slotcode ?? i.slotCode ?? i.Slot ?? null,
+  indCat:   i => i.Category ?? i.category ?? i.cat ?? '',
+  indText:  i => i.Indicator ?? i.indicator ?? i.text ?? i.name ?? '',
+};
+
+async function loadSnapshot(bust = true) {
+  const qs = bust ? `?ts=${Date.now()}` : '';
+  const url = DATA_URL + qs;
+  time('[SNAP] fetch');
+  info('[SNAP] GET', url);
+  const res = await fetch(url, { cache: 'no-store' });
+  timeEnd('[SNAP] fetch');
+  if (!res.ok) { err('[SNAP] HTTP', res.status, res.statusText); throw new Error(`Load failed ${res.status}`); }
+  time('[SNAP] json');
+  const json = await res.json();
+  timeEnd('[SNAP] json');
+
+  const isApi = !!json.ok && (Array.isArray(json.rooms) || Array.isArray(json.data));
+  SNAP = isApi ? {
+    rooms: json.rooms, slots: json.slots, staff: json.staff, indicators: json.indicators, _meta: json._meta
+  } : json;
+
+  // Нормалізація
+  SNAP.rooms      = Array.isArray(SNAP.rooms) ? SNAP.rooms : [];
+  SNAP.slots      = Array.isArray(SNAP.slots) ? SNAP.slots : [];
+  SNAP.staff      = Array.isArray(SNAP.staff) ? SNAP.staff : [];
+  SNAP.indicators = Array.isArray(SNAP.indicators) ? SNAP.indicators : [];
+
+  group('[SNAP] stats');
+  info('rooms:', SNAP.rooms.length);
+  info('slots:', SNAP.slots.length);
+  info('staff:', SNAP.staff.length);
+  info('indicators:', SNAP.indicators.length);
+  info('_meta:', SNAP._meta || null);
+  groupEnd();
+
+  return SNAP;
+}
+
+let CFG = null;
+let IND_VER = null;
+
+async function getConfigCached() {
+  if (!SNAP) await loadSnapshot(true);
+  const indicatorsVersion = SNAP._meta?.version ?? String(SNAP.indicators?.length ?? '0');
+  const data = {
+    rooms: SNAP.rooms.map(r => ({ RoomCode:G.roomCode(r), RoomName:G.roomName(r), _raw:r }))
+                     .filter(r => r.RoomCode),
+    slots: SNAP.slots.map(s => ({ SlotCode:G.slotCode(s), SlotLabel:G.slotLabel(s), _raw:s }))
+                     .filter(s => s.SlotCode),
+    indicatorsVersion
+  };
+  CFG = data; IND_VER = indicatorsVersion;
+
+  group('[CFG] prepared');
+  info('rooms:', data.rooms.length, data.rooms.slice(0,3));
+  info('slots:', data.slots.length, data.slots.slice(0,3));
+  info('indicatorsVersion:', indicatorsVersion);
+  groupEnd();
+
+  return data;
+}
+
+async function getStaffByRoomCached(roomCode) {
+  if (!SNAP) await loadSnapshot(false);
+  const out = [];
+  for (const s of SNAP.staff) {
+    const id = G.staffId(s); if (!id) continue;
+    const nm = G.staffName(s);
+    const sr = G.staffRooms(s);
+    let ok = false;
+    if (sr == null) ok = true;
+    else if (Array.isArray(sr)) ok = sr.map(String).includes(String(roomCode));
+    else ok = String(sr) === String(roomCode);
+    if (ok) out.push({ StaffId:String(id), StaffName:nm, _raw:s });
+  }
+  if (!out.length) {
+    warn('[STAFF] no staff matched room', roomCode, '— fallback to all staff');
+    SNAP.staff.forEach(s => { const id = G.staffId(s); if (id) out.push({ StaffId:String(id), StaffName:G.staffName(s), _raw:s }); });
+  }
+
+  info('[STAFF] list for room', roomCode, '->', out.length);
+  return out;
+}
+
+/* ====== Фільтр індикаторів (Варіант A + wildcards) ======
+   Individual:
+     - глобальні (без Room/Slot),
+     - або ті, де Room/Slot збігаються ('' чи '*' — вайлдкард).
+   Team:
+     - вимагаємо збіг якщо поле задане ('' або '*' — вайлдкард).
+*/
+async function getIndicatorsCached(roomCode, slotCode, scope) {
+  if (!SNAP) await loadSnapshot(false);
+
+  const norm = v => String(v ?? '').trim();
+  const want = norm(scope).toLowerCase();
+  const rc   = norm(roomCode);
+  const sc   = norm(slotCode);
+
+  time(`[IND] filter ${scope}`);
+  const filtered = SNAP.indicators.filter(i => {
+    const s  = norm(G.indScope(i)).toLowerCase();
+    if (want && s !== want) return false;
+
+    const r  = norm(G.indRoom(i));
+    const sl = norm(G.indSlot(i));
+
+    const roomAny = !r || r === '*';
+    const slotAny = !sl || sl === '*';
+
+    if (want === 'individual') {
+      const isGlobal = roomAny && slotAny;
+      const roomOk   = roomAny ? true : r === rc;
+      const slotOk   = slotAny ? true : sl === sc;
+      return isGlobal || (roomOk && slotOk);
+    }
+
+    // Team
+    const byRoom = roomAny ? true : r === rc;
+    const bySlot = slotAny ? true : sl === sc;
+    return byRoom && bySlot;
+  });
+  timeEnd(`[IND] filter ${scope}`);
+
+  info('[INDICATORS]', { scope, roomCode: rc, slotCode: sc, total: SNAP.indicators.length, picked: filtered.length });
+  return filtered.map(i => ({ Category:G.indCat(i), Indicator:G.indText(i), _raw:i }));
+}
+
+// ===== UI HELPERS =====
+function toMMDDYYYY(str) {
+  if (!str) return '';
+  const [y, m, d] = str.split('-'); // YYYY-MM-DD -> MM-DD-YYYY
+  return `${m}-${d}-${y}`;
+}
+function showErr(el, msg) { if (el){ el.textContent = msg; el.classList.remove('hidden'); warn('[UI] showErr:', msg); } }
+function hideErr(el) { if (el){ el.textContent = ''; el.classList.add('hidden'); } }
+function setBtnLoading(btn, on = true) {
+  if (!btn) return;
+  if (on) { btn.dataset.prevHTML = btn.innerHTML; btn.innerHTML = `<span class="spinner"></span><span style="margin-left:8px">Processing…</span>`; btn.disabled = true; }
+  else { if (btn.dataset.prevHTML){ btn.innerHTML = btn.dataset.prevHTML; delete btn.dataset.prevHTML; } btn.disabled = false; }
+}
+function closePanels(except) {
+  [typeof roomPanel !== 'undefined' ? roomPanel : null,
+   typeof slotPanel !== 'undefined' ? slotPanel : null,
+   typeof staffPanel !== 'undefined' ? staffPanel : null,
+   typeof indStaffPanel !== 'undefined' ? indStaffPanel : null
+  ].forEach(p => { if (p && p !== except) p.classList.add('hidden'); });
+}
+function renderDropdown(panel, items, labelEl, onSelect) {
+  if (!panel) return;
+  info('[UI] renderDropdown into', panel.id, 'items:', items.length);
+  panel.innerHTML = items.map(x => `<div class="opt" data-val="${String(x.value)}">${x.label}</div>`).join('');
+  panel.querySelectorAll('.opt').forEach(opt => {
+    opt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const val = opt.dataset.val; const lbl = opt.textContent;
+      info('[UI] dropdown select', panel.id, {val, lbl});
+      if (labelEl) labelEl.textContent = lbl;
+      if (typeof onSelect === 'function') onSelect(val, lbl);
+      panel.classList.add('hidden');
+    });
+  });
+}
+
+// ===== DOM =====
+const startScreen = document.getElementById('startScreen');
+const startBtn = document.getElementById('startBtn');
+const formCard = document.getElementById('formCard');
+
+const roomToggle = document.getElementById('roomToggle');
+const roomLabel = document.getElementById('roomLabel');
+const roomPanel = document.getElementById('roomPanel');
+const roomErr = document.getElementById('roomErr');
+
+const slotToggle = document.getElementById('slotToggle');
+const slotLabel = document.getElementById('slotLabel');
+const slotPanel = document.getElementById('slotPanel');
+const slotErr = document.getElementById('slotErr');
+
+const date = document.getElementById('date');
+const dateErr = document.getElementById('dateErr');
+
+const staffToggle = document.getElementById('staffToggle');
+const staffPanel = document.getElementById('staffPanel');
+const staffLabel = document.getElementById('staffLabel');
+const staffErr = document.getElementById('staffErr');
+
+const indStaffToggle = document.getElementById('indStaffToggle');
+const indStaffLabel = document.getElementById('indStaffLabel');
+const indStaffPanel = document.getElementById('indStaffPanel');
+const indErr = document.getElementById('indErr');
+
+const teamBlock = document.getElementById('teamBlock');
+const teamTableWrap = document.getElementById('teamTableWrap');
+const teamPrepBtn = document.getElementById('teamPrepBtn');
+const teamBody = document.getElementById('teamBody');
+const teamConfirm = document.getElementById('teamConfirm');
+const teamValMsg = document.getElementById('teamValMsg');
+const teamLoading = document.getElementById('teamLoading');
+
+const indGate = document.getElementById('indGate');
+const breachSeg = document.getElementById('breachSeg');
+const indBlock = document.getElementById('indBlock');
+const indTableWrap = document.getElementById('indTableWrap');
+const indBody = document.getElementById('indBody');
+const indValMsg = document.getElementById('indValMsg');
+const indLoading = document.getElementById('indLoading');
+const finishNo = document.getElementById('finishNo');
+const finishNoBtn = document.getElementById('finishNoBtn');
+const finishInd = document.getElementById('finishInd');
+const msg = document.getElementById('msg');
+
+// ===== State =====
+let __batchId = null;
+let presentStaffIds = [];
+let staffList = [];
+let selectedRoom = null;
+let selectedSlot = null;
+let selectedIndStaff = null;
+
+// ===== Start =====
+startBtn.addEventListener('click', async () => {
+  info('[FLOW] Start button click');
+  startScreen.classList.add('hidden');
+  formCard.classList.remove('hidden');
+
+  
+  msg.textContent = '';
+  try {
+    roomLabel.innerHTML = '<span class="spinner"></span> Loading rooms…';
+    slotLabel.innerHTML = '<span class="spinner"></span> Loading slots…';
+
+    const cfg = await getConfigCached();
+
+    renderDropdown(
+      roomPanel,
+      cfg.rooms.map((r) => ({ value: r.RoomCode, label: r.RoomName || r.RoomCode })),
+      roomLabel,
+      (val, lbl) => {
+        selectedRoom = val;
+        info('[SELECT] room', {val, lbl});
+        roomLabel.textContent = lbl;
+        hideTeamData();
+        loadStaffByRoom(val);
+        applyRoomTheme(lbl);
+        maybeShowTeam();
+      }
+    );
+
+    renderDropdown(
+      slotPanel,
+      cfg.slots.map((s) => ({ value: s.SlotCode, label: s.SlotLabel })),
+      slotLabel,
+      (val, lbl) => {
+        selectedSlot = val;
+        info('[SELECT] slot', {val, lbl});
+        slotLabel.textContent = lbl;
+        hideTeamData();
+        maybeShowTeam();
+      }
+    );
+
+    roomLabel.textContent = 'Select room…';
+    slotLabel.textContent = 'Select time…';
+    const today = new Date();
+    date.value = today.toLocaleDateString('en-CA'); // YYYY-MM-DD локально
+    info('[DATE] default set', date.value);
+  } catch (e) {
+    err('[CFG] load error', e);
+    msg.textContent = 'Config load error: ' + e.message;
+  }
+});
+
+// ===== Theme switch by room =====
+function applyRoomTheme(labelText) {
+  document.body.classList.remove('theme-pink','theme-green','theme-blue');
+  const rv = (labelText || '').toLowerCase();
+  if(rv.includes('pink'))  document.body.classList.add('theme-pink');
+  if(rv.includes('green')) document.body.classList.add('theme-green');
+  if(rv.includes('blue'))  document.body.classList.add('theme-blue');
+  info('[THEME] applied', document.body.className);
+}
+
+// ===== Toggles =====
+roomToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(roomPanel); roomPanel.classList.toggle('hidden'); info('[UI] toggle room panel', !roomPanel.classList.contains('hidden')); });
+slotToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(slotPanel); slotPanel.classList.toggle('hidden'); info('[UI] toggle slot panel', !slotPanel.classList.contains('hidden')); });
+indStaffToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(indStaffPanel); indStaffPanel.classList.toggle('hidden'); info('[UI] toggle ind panel', !indStaffPanel.classList.contains('hidden')); });
+staffToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(staffPanel); staffPanel.classList.toggle('hidden'); info('[UI] toggle staff panel', !staffPanel.classList.contains('hidden')); });
+[roomPanel, slotPanel, staffPanel, indStaffPanel].forEach(p => p.addEventListener('click', e => e.stopPropagation()));
+document.addEventListener('click', () => closePanels());
+
+// ===== Staff =====
+function updateStaffLabel() {
+  const count = presentStaffIds.length;
+  staffLabel.textContent = count ? `${count} staff present` : 'Select staff…';
+  info('[STAFF] label', staffLabel.textContent);
+}
+function renderStaffMulti() {
+  info('[STAFF] render multi. items:', staffList.length);
+  if (!staffList.length) {
+    staffPanel.innerHTML = '<div class="note" style="padding:8px">No staff found</div>';
+    updateStaffLabel(); return;
+  }
+  const listHtml = staffList.map(s => `
+    <label class="opt">
+      <input type="checkbox" value="${s.StaffId}" ${presentStaffIds.includes(s.StaffId) ? 'checked' : ''}/>
+      <span>${s.StaffName}</span>
+    </label>`).join('');
+
+  staffPanel.innerHTML = `
+    <div class="panel-list">${listHtml}</div>
+    <div class="panel-actions">
+      <div style="flex:1"></div>
+      <button class="mini-btn secondary" id="staffClearBtn" type="button">Clear</button>
+      <button class="mini-btn" id="staffApplyBtn" type="button">Apply</button>
+    </div>
+  `;
+
+  staffPanel.querySelector('.panel-list').addEventListener('change', (e) => {
+    const t = e.target;
+    if (t && t.type === 'checkbox') {
+      const id = t.value;
+      if (t.checked) { if (!presentStaffIds.includes(id)) presentStaffIds.push(id); }
+      else { presentStaffIds = presentStaffIds.filter(x => x !== id); }
+      info('[STAFF] change', {id, checked:t.checked, total:presentStaffIds.length});
+      updateStaffLabel();
+    }
+  });
+
+  staffPanel.querySelector('#staffClearBtn').addEventListener('click', () => {
+    info('[STAFF] clear');
+    presentStaffIds = [];
+    staffPanel.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+    updateStaffLabel();
+  });
+
+  staffPanel.querySelector('#staffApplyBtn').addEventListener('click', () => {
+    info('[STAFF] apply', presentStaffIds);
+    staffPanel.classList.add('hidden');
+    maybeShowTeam();
+  });
+
+  updateStaffLabel();
+}
+
+async function loadStaffByRoom(roomCode) {
+  info('[STAFF] load by room', roomCode);
+  staffLabel.innerHTML = '<span class="spinner"></span> Loading staff…';
+  staffList = await getStaffByRoomCached(roomCode);
+  presentStaffIds = presentStaffIds.filter(id => staffList.some(s => s.StaffId === id));
+  renderStaffMulti();
+
+  renderDropdown(
+    indStaffPanel,
+    staffList.map((s) => ({ value: s.StaffId, label: s.StaffName })),
+    indStaffLabel,
+    async (val, lbl) => {
+      selectedIndStaff = val;
+      info('[IND] person selected', {val, lbl});
+      indStaffLabel.textContent = lbl;
+      try {
+        indLoading.classList.remove('hidden');
+        indTableWrap.classList.add('hidden');
+        const ind = await getIndicatorsCached(selectedRoom, selectedSlot, 'Individual');
+        info('[IND] indicators count', ind.length);
+        indBody.innerHTML = ind.map((x, i) => `
+          <tr>
+            <td>${x.Category}</td>
+            <td>${x.Indicator}</td>
+            <td>
+              <select id="i_sel_${i}">
+                <option value="yes">Checked</option>
+                <option value="no">Not checked</option>
+              </select>
+            </td>
+            <td>
+              <textarea id="i_cmt_${i}"></textarea>
+              <div class="inline-err hidden" id="i_err_${i}">Comment required</div>
+            </td>
+          </tr>`).join('');
+        window.__indIndicators = ind;
+        indLoading.classList.add('hidden');
+        indTableWrap.classList.remove('hidden');
+      } catch (e) {
+        indLoading.classList.add('hidden');
+        err('[IND] load error', e);
+        showErr(indValMsg, e.message || 'Load error');
+      }
+    }
+  );
+  indStaffLabel.textContent = 'Select staff…';
+}
+
+// ===== Team =====
+function hideTeamData() {
+  info('[TEAM] hide');
+  teamBlock.classList.add('hidden');
+  teamTableWrap.classList.add('hidden');
+}
+function headerReady() {
+  const ok = !!(selectedRoom && selectedSlot && date.value && presentStaffIds.length > 0);
+  info('[HEADER] ready?', ok, {selectedRoom, selectedSlot, date:date.value, presentStaffIds});
+  return ok;
+}
+function maybeShowTeam() {
+  if (headerReady()) {
+    info('[TEAM] show block');
+    teamBlock.classList.remove('hidden');
+    teamTableWrap.classList.add('hidden');
+  } else {
+    hideTeamData();
+  }
+}
+date.addEventListener('change', () => { info('[DATE] change', date.value); hideTeamData(); maybeShowTeam(); });
+
+teamPrepBtn.addEventListener('click', async () => {
+  info('[TEAM] prep click]');
+  let ok = true;
+  [roomErr, slotErr, dateErr, staffErr].forEach(hideErr);
+  if (!selectedRoom) { showErr(roomErr, 'Select a room'); ok = false; }
+  if (!selectedSlot) { showErr(slotErr, 'Select a time slot'); ok = false; }
+  if (!date.value)   { showErr(dateErr, 'Select a date'); ok = false; }
+  if (presentStaffIds.length < 1) { showErr(staffErr, 'Select at least one staff member'); ok = false; }
+  if (!ok) { warn('[TEAM] prep aborted (validation)'); return; }
+
+  try {
+    teamLoading.classList.remove('hidden');
+    teamTableWrap.classList.add('hidden');
+    const ind = await getIndicatorsCached(selectedRoom, selectedSlot, 'Team');
+    info('[TEAM] indicators count', ind.length);
+    teamBody.innerHTML = ind.map((x, i) => `
+      <tr>
+        <td>${x.Category}</td>
+        <td>${x.Indicator}</td>
+        <td>
+          <select id="t_sel_${i}">
+            <option value="yes">Checked</option>
+            <option value="no">Not checked</option>
+          </select>
+        </td>
+        <td>
+          <textarea id="t_cmt_${i}"></textarea>
+          <div class="inline-err hidden" id="t_err_${i}">Comment required</div>
+        </td>
+      </tr>`).join('');
+    window.__teamIndicators = ind;
+    teamLoading.classList.add('hidden');
+    teamTableWrap.classList.remove('hidden');
+  } catch (e) {
+    teamLoading.classList.add('hidden');
+    err('[TEAM] load error]', e);
+    showErr(teamValMsg, e.message || 'Load error');
+  }
+});
+
+teamConfirm.addEventListener('click', async () => {
+  info('[TEAM] confirm click');
+  hideErr(teamValMsg);
+  const ind = window.__teamIndicators || [];
+  if (!ind.length) { showErr(teamValMsg, 'No indicators to save'); warn('[TEAM] no ind'); return; }
+
+  let allOk = true;
+  const items = ind.map((x, i) => {
+    const check = document.getElementById(`t_sel_${i}`).value;
+    const cmt = document.getElementById(`t_cmt_${i}`);
+    const errEl = document.getElementById(`t_err_${i}`);
+    cmt.classList.remove('invalid'); errEl.classList.add('hidden');
+    if (check === 'no' && !String(cmt.value).trim()) { allOk = false; cmt.classList.add('invalid'); errEl.classList.remove('hidden'); }
+    return { category: x.Category, indicator: x.Indicator, check, comment: cmt.value };
+  });
+
+  if (!allOk) { showErr(teamValMsg, "Comment required for 'Not checked'"); warn('[TEAM] validation failed'); return; }
+
+  __batchId = __batchId || `B-${Date.now()}`;
+  const payload = {
+    batchId: __batchId,
+    header: { date: toMMDDYYYY(date.value), roomCode: selectedRoom, slotCode: selectedSlot, presentStaffIds: [...presentStaffIds] },
+    items,
+    by: 'ui',
+    indicatorsVersion: IND_VER
+  };
+
+  try {
+    setBtnLoading(teamConfirm, true);
+    await api('saveTeamKPI', payload);
+    msg.textContent = 'Team KPI confirmed. Proceed to Individual KPI';
+    indGate.classList.remove('hidden');
+    info('[TEAM] saved ok');
+  } catch (e) {
+    err('[TEAM] save error', e);
+    showErr(teamValMsg, e.message || 'Save error');
+  } finally {
+    setBtnLoading(teamConfirm, false);
+  }
+});
+
+// ===== Individual =====
+breachSeg.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  breachSeg.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const yes = e.target.dataset.val === 'yes';
+  info('[IND] breach answer', yes ? 'YES' : 'NO');
+  if (yes) {
+    finishNo.classList.add('hidden');
+    indBlock.classList.remove('hidden');
+    indTableWrap.classList.add('hidden');
+  } else {
+    indBlock.classList.add('hidden');
+    indTableWrap.classList.add('hidden');
+    finishNo.classList.remove('hidden');
+  }
+});
+
+finishInd.addEventListener('click', async () => {
+  info('[IND] confirm click');
+  hideErr(indErr); hideErr(indValMsg);
+  if (!selectedIndStaff) { showErr(indErr, 'Select staff'); warn('[IND] no staff selected'); return; }
+  const ind = window.__indIndicators || [];
+  if (!ind.length) { showErr(indValMsg, 'No indicators to save'); warn('[IND] no indicators list'); return; }
+
+  let allOk = true;
+  const items = ind.map((x, i) => {
+    const check = document.getElementById(`i_sel_${i}`).value;
+    const cmt = document.getElementById(`i_cmt_${i}`);
+    const errEl = document.getElementById(`i_err_${i}`);
+    cmt.classList.remove('invalid'); errEl.classList.add('hidden');
+    if (check === 'no' && !String(cmt.value).trim()) { allOk = false; cmt.classList.add('invalid'); errEl.classList.remove('hidden'); }
+    return { category: x.Category, indicator: x.Indicator, check, comment: cmt.value };
+  });
+
+  if (!allOk) { showErr(indValMsg, "Comment required for 'Not checked'"); warn('[IND] validation failed'); return; }
+
+  const payload = {
+    batchId: __batchId,
+    header: { date: toMMDDYYYY(date.value), roomCode: selectedRoom, slotCode: selectedSlot },
+    member: { staffId: selectedIndStaff },
+    items,
+    by: 'ui',
+    indicatorsVersion: IND_VER
+  };
+  try {
+    setBtnLoading(finishInd, true);
+    await api('saveIndividualKPI', payload);
+    msg.textContent = 'Saved. Returning to start.';
+    finishNo.classList.remove('hidden');
+    info('[IND] saved ok');
+  } catch (e) {
+    err('[IND] save error', e);
+    showErr(indValMsg, e.message || 'Save error');
+  } finally {
+    setBtnLoading(finishInd, false);
+  }
+});
+
+// ===== Finish (No breaches) =====
+finishNoBtn.addEventListener('click', async () => {
+  info('[FINISH] no-breaches click');
+  try {
+    setBtnLoading(finishNoBtn, true);
+    __batchId = __batchId || `B-${Date.now()}`;
+    await api('saveIndividualKPI', {
+      batchId: __batchId,
+      header: {
+        date: toMMDDYYYY(date.value),
+        roomCode: selectedRoom,
+        slotCode: selectedSlot,
+        presentStaffIds: [...presentStaffIds]
+      },
+      items: [], // сигнал бекенду створити default=yes
+      by: 'ui',
+      indicatorsVersion: IND_VER
+    });
+    await api('finalizeBatch', {
+      batchId: __batchId,
+      date: toMMDDYYYY(date.value),
+      slotCode: selectedSlot,
+      roomCode: selectedRoom,
+      by: 'ui'
+    });
+    msg.textContent = 'Batch finalized. Returning to start...';
+    info('[FINISH] finalized');
+    setTimeout(() => location.reload(), 1500);
+  } catch (e) {
+    err('[FINISH] error', e);
+    showErr(msg, 'Finalize error: ' + e.message);
+  } finally {
+    setBtnLoading(finishNoBtn, false);
+  }
+});
+</script>
+
+
+</body>
+</html>

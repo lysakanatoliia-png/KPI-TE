@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Admin KPI Checklist</title>
+<style>
+  :root{--bg:#f3f7ff;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e5e7eb;--accent:#2563eb;--ok:#16a34a;--bad:#dc2626}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  .wrap{max-width:980px;margin:28px auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--accent);border-radius:18px;box-shadow:0 24px 40px rgba(2,6,23,.06);padding:22px}
+  h1{margin:0 0 14px;font-size:24px;text-align:center}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  label{font-size:12px;color:var(--muted)}
+
+  .control{height:44px;display:flex;align-items:center;border:1px solid var(--border);
+           border-radius:12px;background:#fff;padding:0 12px;font-size:14px}
+
+  .section{margin-top:28px;padding-top:20px;border-top:1px dashed var(--border)}
+  .row{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 0}
+  .note{font-size:12px;color:var(--muted);text-align:center}
+  .error{font-size:12px;color:var(--bad);margin-top:6px;white-space:pre-line;text-align:center}
+
+  /* Кнопки */
+  .btn{border:2px solid var(--accent);border-radius:14px;padding:14px 22px;font-weight:700;cursor:pointer;
+       display:inline-flex;gap:8px;align-items:center;justify-content:center;min-width:200px;margin:20px 0;}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+  .btn.full{width:100%}
+  .btn.finish{background:#F4C542;border-color:#F4C542;color:#000;min-width:260px;}
+
+  .center{display:flex;justify-content:center;align-items:center}
+  .spinner{width:16px;height:16px;border:3px solid rgba(0,0,0,.15);border-top-color:var(--accent);
+           border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;display:inline-block;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Multi dropdown */
+  .multi{position:relative}
+  .multi-toggle{display:flex;align-items:center;cursor:pointer;position:relative}
+  .multi-toggle.control{padding-right:28px}
+  .multi-toggle span{flex:1 1 auto;min-width:0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;}
+  .multi-caret{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.7}
+
+  /* ↓↓↓ прибрано "хвіст" унизу панелей */
+  .multi-panel{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--border);
+               border-radius:12px;box-shadow:0 12px 24px rgba(2,6,23,.08);z-index:10;padding:8px;max-height:260px;overflow:auto}
+  .opt{display:flex;align-items:center;gap:8px;padding:6px;border-radius:8px;cursor:pointer}
+  .opt:hover{background:#f8fafc}
+  .opt input{margin:0}
+
+  /* Панель дій у мультивиборі Staff — компактна, без зайвого відступу знизу */
+  .panel-actions{
+    position:sticky; bottom:0; background:#fff;
+    border-top:1px solid var(--border); padding:8px; margin:8px -8px -8px;
+    display:flex; gap:8px; align-items:center; justify-content:flex-end;
+  }
+  .mini-btn{border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:10px; padding:8px 5px; cursor:pointer; font-weight:700}
+  .mini-btn.secondary{background:#fff;color:var(--accent)}
+  .badge{display:inline-block; padding:4px 8px; font-size:12px; border-radius:999px; background:#eef2ff; color:#334155}
+
+  /* Таблиці */
+  table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px;border-radius:12px;overflow:hidden;table-layout:fixed}
+  th,td{padding:10px 12px;border:1px solid var(--border);white-space:normal;word-break:keep-all;overflow-wrap:break-word;vertical-align:top}
+  th{background:#eef2ff;text-align:left;color:#334155;font-size:13px;font-weight:600}
+  td{background:#fff;font-size:16px}
+  td select, td textarea{font-size:16px;line-height:1.4}
+  td select, select.control{width:100%;min-height:36px;padding:8px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:14px}
+  textarea{width:100%;min-height:36px;padding:8px;border:1px solid var(--border);border-radius:8px;resize:vertical}
+
+  .hidden{display:none}
+  .req{color:var(--bad);font-weight:700;margin-left:4px}
+  .invalid{border-color:var(--bad)!important; box-shadow:0 0 0 2px rgba(220,38,38,.12)}
+  .inline-err{font-size:11px;color:var(--bad);margin-top:6px}
+
+  .seg{display:inline-grid;grid-auto-flow:column;background:#f1f5f9;border-radius:999px;padding:14px 6px;gap:6px;margin:18px 0;}
+  .seg button{border:0;padding:14px 30px;border-radius:999px;font-weight:700;cursor:pointer;opacity:.9;min-width:120px;font-size:14px;}
+  .seg button[data-val="no"]{background:#fee2e2;color:#b91c1c}
+  .seg button[data-val="yes"]{background:#dcfce7;color:#15803d}
+  .seg button.active{box-shadow:0 0 0 2px rgba(0,0,0,.08) inset;opacity:1}
+
+  .header{display:flex;align-items:center;gap:16px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px}
+  .header img{height:60px;object-fit:contain}
+  .header-text{display:flex;flex-direction:column}
+  .hero{position:relative;border:1px solid #2563eb;border-radius:14px;padding:6px;background:#fff;overflow:hidden;display:flex;justify-content:center;align-items:center}
+  .hero img{width:calc(100% - 8px);height:calc(320px - 8px);object-fit:cover;border-radius:8px;display:block}
+  .hero-text{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;padding:0 10px}
+  .hero-text .brand{font-weight:900;font-size:26px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+  .hero-text .brand-sub{font-size:16px;font-weight:700;color:#f8fafc;text-shadow:0 2px 5px rgba(0,0,0,.7);margin-top:6px}
+
+  /* Теми */
+  body.theme-pink{--accent:#ec4899;--bg:#fff7fb}
+  body.theme-green{--accent:#16a34a;--bg:#f7fef9}
+  body.theme-blue{--accent:#2563eb;--bg:#eef7ff}
+
+  .footer{display:flex;justify-content:center;align-items:center;font-size:12px;color:#64748b;margin:28px 0}
+  @media (max-width:860px){ .grid{grid-template-columns:1fr 1fr} }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- Start screen -->
+  <div class="card" id="startScreen">
+    <div class="header">
+      <img src="logo.svg" alt="Logo"/>
+      <div class="header-text">
+        <div class="brand">Tiny Einstein Child Development Center</div>
+        <div class="brand-sub">KPI Control Panel</div>
+      </div>
+    </div>
+    <div class="hero">
+      <img src="samples.jpg" alt="Kindergarten"/>
+      <div class="hero-text">
+        <div class="brand">Tiny Einstein Child Development Center</div>
+        <div class="brand-sub">KPI Control Panel</div>
+      </div>
+    </div>
+    <div class="center" style="margin:22px 0">
+      <button class="btn primary full" id="startBtn">Start new check</button>
+    </div>
+  </div>
+
+  <!-- Main form -->
+  <div class="card hidden" id="formCard">
+    <div class="header">
+      <img src="logo.svg" alt="Logo"/>
+      <div class="header-text">
+        <div class="brand">Tiny Einstein Child Development Center</div>
+        <div class="brand-sub">KPI Control Panel</div>
+      </div>
+    </div>
+
+    <h1>Admin Checklist — KPI</h1>
+
+    <!-- Header -->
+    <div class="grid">
+      <!-- Room -->
+      <div class="field">
+        <label>Room <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="roomToggle">
+            <span id="roomLabel"><span class="spinner"></span> Loading rooms…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="roomPanel"></div>
+        </div>
+        <div id="roomErr" class="error hidden"></div>
+      </div>
+
+      <!-- Time Slot -->
+      <div class="field">
+        <label>Time Slot <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="slotToggle">
+            <span id="slotLabel"><span class="spinner"></span> Loading slots…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="slotPanel"></div>
+        </div>
+        <div id="slotErr" class="error hidden"></div>
+      </div>
+
+      <!-- Date -->
+      <div class="field">
+        <label>Date (MM-DD-YYYY) <span class="req">*</span></label>
+        <input type="date" id="date" class="control"/>
+        <div id="dateErr" class="error hidden"></div>
+      </div>
+
+      <!-- Staff Present -->
+      <div class="field">
+        <label>Staff Present (multi) <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="staffToggle">
+            <span id="staffLabel"><span class="spinner"></span> Loading staff…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="staffPanel"></div>
+        </div>
+        <div id="staffErr" class="error hidden"></div>
+      </div>
+    </div>
+
+    <!-- Team KPI -->
+    <div id="teamBlock" class="section hidden">
+      <div class="row">
+        <div style="text-align:center">
+          <div style="font-weight:700">Team KPI — Review</div>
+          <div class="note">Press “Show checklist” to load indicators. Comment required when “Not checked”.</div>
+        </div>
+      </div>
+
+      <div class="center" id="teamPrepWrap">
+        <button class="btn primary" id="teamPrepBtn">Show checklist</button>
+      </div>
+
+      <div id="teamLoading" class="center hidden" style="margin-top:12px">
+        <div class="spinner"></div><span>Loading team indicators...</span>
+      </div>
+
+      <div id="teamTableWrap" class="hidden">
+        <table>
+          <thead>
+            <tr><th>Category</th><th>Indicator</th><th>Check</th><th>Comments</th></tr>
+          </thead>
+          <tbody id="teamBody"></tbody>
+        </table>
+        <div class="center"><div id="teamValMsg" class="error hidden"></div></div>
+        <div class="center">
+          <button class="btn primary" id="teamConfirm"><span>Confirm Selection</span></button>
+        </div>
+      </div>
+      <div class="note">After confirmation, Team KPI is locked and you proceed to Individual KPI.</div>
+    </div>
+
+    <!-- Individual gate -->
+    <div id="indGate" class="section hidden">
+      <div class="row">
+        <div style="text-align:center">
+          <div style="font-weight:700">Individual KPI</div>
+          <div class="note">Were there any individual KPI breaches during this slot?</div>
+        </div>
+      </div>
+      <div class="center">
+        <div class="seg" id="breachSeg">
+          <button type="button" data-val="no" class="active">No</button>
+          <button type="button" data-val="yes">Yes</button>
+        </div>
+      </div>
+      <div class="note center" id="indHint">Select a person below to proceed.</div>
+    </div>
+
+    <!-- Individual details -->
+    <div id="indBlock" class="section hidden">
+      <div class="field" style="max-width:420px;margin:0 auto">
+        <label>Who had a breach? <span class="req">*</span></label>
+        <div class="multi">
+          <div class="multi-toggle control" id="indStaffToggle">
+            <span id="indStaffLabel"><span class="spinner"></span> Loading staff…</span>
+            <span class="multi-caret">▾</span>
+          </div>
+          <div class="multi-panel hidden" id="indStaffPanel"></div>
+        </div>
+        <div id="indErr" class="error hidden"></div>
+      </div>
+
+      <div id="indLoading" class="center hidden" style="margin-top:12px">
+        <div class="spinner"></div><span>Loading individual indicators...</span>
+      </div>
+
+      <div id="indTableWrap" class="hidden">
+        <table>
+          <thead>
+            <tr><th>Category</th><th>Indicator</th><th>Check</th><th>Comments</th></tr>
+          </thead>
+          <tbody id="indBody"></tbody>
+        </table>
+        <div class="center"><div id="indValMsg" class="error hidden"></div></div>
+        <div class="center">
+          <button class="btn primary" id="finishInd"><span>Confirm Selection</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finish -->
+    <div id="finishNo" class="section hidden">
+      <div class="center">
+        <button class="btn finish" id="finishNoBtn"><span>Confirm & Finish</span></button>
+      </div>
+    </div>
+
+    <div id="msg" class="note"></div>
+  </div>
+</div>
+
+<div class="footer">© 2025 Tiny Einstein Child Development Center</div>
+
+<script>
+  // Зміни шлях за потреби: proxy1.php або proxy.php
+  const WEBAPP_URL = '/kpi/proxy.php';
+
+  /* ==== API ==== */
+  async function api(action, payload = {}) {
+    const r = await fetch(WEBAPP_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, payload })
+    });
+    const data = await r.json().catch(() => ({
+      ok: false,
+      code: 'HTTP',
+      message: r.status + ' ' + r.statusText
+    }));
+    if (data && data.ok === false)
+      throw new Error((data.code || 'ERR') + ': ' + (data.message || ''));
+    return data;
+  }
+
+  /* ==== КЕШ 15 хв (версійний для індикаторів) ==== */
+  const CACHE_NS = 'kpi_cache_v1';
+  const memoryCache = new Map();
+  const TTL_MS = 15 * 60 * 1000; // 15 хвилин для всіх читальних запитів
+
+  function ck(parts){ return `${CACHE_NS}:${parts.join('|')}`; }
+  function cget(key){
+    const mem = memoryCache.get(key);
+    if (mem && mem.exp > Date.now()) return mem.val;
+    try{
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const it = JSON.parse(raw);
+      if (it.exp > Date.now()){ memoryCache.set(key, it); return it.val; }
+      localStorage.removeItem(key);
+    }catch(e){}
+    return null;
+  }
+  function cset(key, val, ttl = TTL_MS){
+    const it = { val, exp: Date.now() + ttl };
+    memoryCache.set(key, it);
+    try{ localStorage.setItem(key, JSON.stringify(it)); }catch(e){}
+  }
+  function cclearPrefix(prefix){
+    const del=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.startsWith(prefix)) del.push(k); }
+    del.forEach(k=>localStorage.removeItem(k));
+  }
+  let CFG = null;      // останній getConfig
+  let IND_VER = null;  // версія індикаторів
+
+  async function getConfigCached(){
+    const key = ck(['cfg']);
+    let data = cget(key);
+    if (!data){
+      data = await api('getConfig');
+      if (data) cset(key, data);
+    }
+    CFG = data;
+    IND_VER = (data && data.indicatorsVersion) || IND_VER || '0';
+    return data;
+  }
+  async function getStaffByRoomCached(roomCode){
+    const key = ck(['staff', roomCode]);
+    let data = cget(key);
+    if (!data){
+      data = await api('getStaffByRoom', { roomCode });
+      cset(key, data);
+    }
+    return data;
+  }
+  async function getIndicatorsCached(roomCode, slotCode, scope){
+    const ver = IND_VER || (CFG && CFG.indicatorsVersion) || '0';
+    const key = ck(['ind', roomCode, slotCode, scope, ver]);
+    let data = cget(key);
+    if (!data){
+      data = await api('getIndicators', { roomCode, slotCode, scope });
+      cset(key, data);
+    }
+    return data;
+  }
+  // опц.: window.__kpiClearCache() в консолі
+  window.__kpiClearCache = ()=>{ cclearPrefix(CACHE_NS+':'); memoryCache.clear(); console.log('KPI cache cleared'); };
+
+  /* ==== Helpers ==== */
+  function toMMDDYYYY(str) {
+    if (!str) return '';
+    const [y, m, d] = str.split('-'); // YYYY-MM-DD -> MM-DD-YYYY
+    return `${m}-${d}-${y}`;
+  }
+  function showErr(el, msg) { el.textContent = msg; el.classList.remove('hidden'); }
+  function hideErr(el) { el.textContent=''; el.classList.add('hidden'); }
+  function setBtnLoading(btn, on = true) {
+    if (on) { btn.dataset.prevHTML = btn.innerHTML; btn.innerHTML = `<span class="spinner"></span><span style="margin-left:8px">Processing…</span>`; btn.disabled = true; }
+    else { if (btn.dataset.prevHTML) { btn.innerHTML = btn.dataset.prevHTML; delete btn.dataset.prevHTML; } btn.disabled = false; }
+  }
+  function closePanels(except) {
+    [roomPanel, slotPanel, staffPanel, indStaffPanel].forEach((p) => { if (p && p !== except) p.classList.add('hidden'); });
+  }
+  function renderDropdown(panel, items, labelEl, onSelect) {
+    panel.innerHTML = items.map((x) => `<div class="opt" data-val="${x.value}">${x.label}</div>`).join('');
+    panel.querySelectorAll('.opt').forEach((opt) => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = opt.dataset.val; const lbl = opt.textContent;
+        onSelect(val, lbl); panel.classList.add('hidden');
+      });
+    });
+  }
+
+  /* ==== DOM ==== */
+  const startScreen = document.getElementById('startScreen');
+  const startBtn = document.getElementById('startBtn');
+  const formCard = document.getElementById('formCard');
+
+  const roomToggle = document.getElementById('roomToggle');
+  const roomLabel = document.getElementById('roomLabel');
+  const roomPanel = document.getElementById('roomPanel');
+  const roomErr = document.getElementById('roomErr');
+
+  const slotToggle = document.getElementById('slotToggle');
+  const slotLabel = document.getElementById('slotLabel');
+  const slotPanel = document.getElementById('slotPanel');
+  const slotErr = document.getElementById('slotErr');
+
+  const date = document.getElementById('date');
+  const dateErr = document.getElementById('dateErr');
+
+  const staffToggle = document.getElementById('staffToggle');
+  const staffPanel = document.getElementById('staffPanel');
+  const staffLabel = document.getElementById('staffLabel');
+  const staffErr = document.getElementById('staffErr');
+
+  const indStaffToggle = document.getElementById('indStaffToggle');
+  const indStaffLabel = document.getElementById('indStaffLabel');
+  const indStaffPanel = document.getElementById('indStaffPanel');
+  const indErr = document.getElementById('indErr');
+
+  const teamBlock = document.getElementById('teamBlock');
+  const teamTableWrap = document.getElementById('teamTableWrap');
+  const teamPrepBtn = document.getElementById('teamPrepBtn');
+  const teamBody = document.getElementById('teamBody');
+  const teamConfirm = document.getElementById('teamConfirm');
+  const teamValMsg = document.getElementById('teamValMsg');
+  const teamLoading = document.getElementById('teamLoading');
+
+  const indGate = document.getElementById('indGate');
+  const breachSeg = document.getElementById('breachSeg');
+  const indBlock = document.getElementById('indBlock');
+  const indTableWrap = document.getElementById('indTableWrap');
+  const indBody = document.getElementById('indBody');
+  const indValMsg = document.getElementById('indValMsg');
+  const indLoading = document.getElementById('indLoading');
+  const finishNo = document.getElementById('finishNo');
+  const finishNoBtn = document.getElementById('finishNoBtn');
+  const finishInd = document.getElementById('finishInd');
+  const msg = document.getElementById('msg');
+
+  /* ==== State ==== */
+  let __batchId = null;
+  let presentStaffIds = [];
+  let staffList = [];
+  let selectedRoom = null;
+  let selectedSlot = null;
+  let selectedIndStaff = null;
+
+  /* ==== Start ==== */
+  startBtn.addEventListener('click', async () => {
+    startScreen.classList.add('hidden');
+    formCard.classList.remove('hidden');
+    try {
+      roomLabel.innerHTML = '<span class="spinner"></span> Loading rooms…';
+      slotLabel.innerHTML = '<span class="spinner"></span> Loading slots…';
+
+      const cfg = await getConfigCached();   /* ← кеш */
+
+      renderDropdown(
+        roomPanel,
+        cfg.rooms.map((r) => ({ value: r.RoomCode, label: r.RoomName || r.RoomCode })),
+        roomLabel,
+        (val, lbl) => {
+          selectedRoom = val;
+          roomLabel.textContent = lbl;
+          hideTeamData();
+          loadStaffByRoom(val);
+          applyRoomTheme(lbl);
+          maybeShowTeam();
+        }
+      );
+
+      renderDropdown(
+        slotPanel,
+        cfg.slots.map((s) => ({ value: s.SlotCode, label: s.SlotLabel })),
+        slotLabel,
+        (val, lbl) => {
+          selectedSlot = val;
+          slotLabel.textContent = lbl;
+          hideTeamData();
+          maybeShowTeam();
+        }
+      );
+
+      roomLabel.textContent = 'Select room…';
+      slotLabel.textContent = 'Select time…';
+      const today = new Date();
+      date.value = today.toLocaleDateString('en-CA'); // YYYY-MM-DD локально
+    } catch (e) {
+      msg.textContent = 'Config load error: ' + e.message;
+    }
+  });
+
+  /* ==== Theme switch by room ==== */
+  function applyRoomTheme(labelText) {
+    document.body.classList.remove('theme-pink','theme-green','theme-blue');
+    const rv = (labelText || '').toLowerCase();
+    if(rv.includes('pink'))  document.body.classList.add('theme-pink');
+    if(rv.includes('green')) document.body.classList.add('theme-green');
+    if(rv.includes('blue'))  document.body.classList.add('theme-blue');
+  }
+
+  /* ==== Toggle handlers (і не закривати при кліку всередині) ==== */
+  roomToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(roomPanel); roomPanel.classList.toggle('hidden'); });
+  slotToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(slotPanel); slotPanel.classList.toggle('hidden'); });
+  indStaffToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(indStaffPanel); indStaffPanel.classList.toggle('hidden'); });
+  staffToggle.addEventListener('click', (e) => { e.stopPropagation(); closePanels(staffPanel); staffPanel.classList.toggle('hidden'); });
+  [roomPanel, slotPanel, staffPanel, indStaffPanel].forEach(p => p.addEventListener('click', e => e.stopPropagation()));
+  document.addEventListener('click', () => closePanels());
+
+  /* ==== Staff ==== */
+  function updateStaffLabel() {
+    const count = presentStaffIds.length;
+    staffLabel.textContent = count ? `${count} staff present` : 'Select staff…';
+  }
+
+  function renderStaffMulti() {
+    if (!staffList.length) {
+      staffPanel.innerHTML = '<div class="note" style="padding:8px">No staff found</div>';
+      updateStaffLabel(); return;
+    }
+    const listHtml = staffList.map(s => `
+      <label class="opt">
+        <input type="checkbox" value="${s.StaffId}" ${presentStaffIds.includes(s.StaffId) ? 'checked' : ''}/>
+        <span>${s.StaffName}</span>
+      </label>`).join('');
+
+    staffPanel.innerHTML = `
+      <div class="panel-list">${listHtml}</div>
+      <div class="panel-actions">
+        <div style="flex:1"></div>
+        <button class="mini-btn secondary" id="staffClearBtn" type="button">Clear</button>
+        <button class="mini-btn" id="staffApplyBtn" type="button">Apply</button>
+      </div>
+    `;
+
+    // Delegated change handler
+    staffPanel.querySelector('.panel-list').addEventListener('change', (e) => {
+      const t = e.target;
+      if (t && t.type === 'checkbox') {
+        const id = t.value;
+        if (t.checked) { if (!presentStaffIds.includes(id)) presentStaffIds.push(id); }
+        else { presentStaffIds = presentStaffIds.filter(x => x !== id); }
+        updateStaffLabel();
+        const badge = staffPanel.querySelector('#staffCountBadge');
+        if (badge) badge.textContent = `${presentStaffIds.length} selected`;
+      }
+    });
+
+    staffPanel.querySelector('#staffClearBtn').addEventListener('click', () => {
+      presentStaffIds = [];
+      staffPanel.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+      updateStaffLabel();
+      const badge = staffPanel.querySelector('#staffCountBadge');
+      if (badge) badge.textContent = `0 selected`;
+    });
+
+    staffPanel.querySelector('#staffApplyBtn').addEventListener('click', () => {
+      staffPanel.classList.add('hidden'); // підтвердили — закриваємо
+      maybeShowTeam();
+    });
+
+    updateStaffLabel();
+  }
+
+  async function loadStaffByRoom(roomCode) {
+    staffLabel.innerHTML = '<span class="spinner"></span> Loading staff…';
+    staffList = await getStaffByRoomCached(roomCode);  /* ← кеш */
+    // Якщо вже були відмічені люди з іншої кімнати — скинь вибір
+    presentStaffIds = presentStaffIds.filter(id => staffList.some(s => s.StaffId === id));
+    renderStaffMulti();
+
+    // Побудова дропдауну для індивідуалки (і одразу завантаження індикаторів в onSelect)
+    renderDropdown(
+      indStaffPanel,
+      staffList.map((s) => ({ value: s.StaffId, label: s.StaffName })),
+      indStaffLabel,
+      async (val, lbl) => {
+        selectedIndStaff = val;
+        indStaffLabel.textContent = lbl;
+        try {
+          indLoading.classList.remove('hidden');
+          indTableWrap.classList.add('hidden');
+          const ind = await getIndicatorsCached(selectedRoom, selectedSlot, 'Individual'); /* ← кеш */
+          indBody.innerHTML = ind.map((x, i) => `
+            <tr>
+              <td>${x.Category}</td>
+              <td>${x.Indicator}</td>
+              <td>
+                <select id="i_sel_${i}">
+                  <option value="yes">Checked</option>
+                  <option value="no">Not checked</option>
+                </select>
+              </td>
+              <td>
+                <textarea id="i_cmt_${i}"></textarea>
+                <div class="inline-err hidden" id="i_err_${i}">Comment required</div>
+              </td>
+            </tr>`).join('');
+          window.__indIndicators = ind;
+          indLoading.classList.add('hidden');
+          indTableWrap.classList.remove('hidden');
+        } catch (e) {
+          indLoading.classList.add('hidden');
+          showErr(indValMsg, e.message || 'Load error');
+        }
+      }
+    );
+    indStaffLabel.textContent = 'Select staff…';
+  }
+
+  /* ==== Team ==== */
+  function hideTeamData() {
+    teamBlock.classList.add('hidden');
+    teamTableWrap.classList.add('hidden');
+  }
+  function headerReady() {
+    return !!(selectedRoom && selectedSlot && date.value && presentStaffIds.length > 0);
+  }
+  function maybeShowTeam() {
+    if (headerReady()) {
+      teamBlock.classList.remove('hidden');
+      teamTableWrap.classList.add('hidden');
+    } else {
+      hideTeamData();
+    }
+  }
+  date.addEventListener('change', () => { hideTeamData(); maybeShowTeam(); });
+
+  teamPrepBtn.addEventListener('click', async () => {
+    let ok = true;
+    [roomErr, slotErr, dateErr, staffErr].forEach(hideErr);
+    if (!selectedRoom) { showErr(roomErr, 'Select a room'); ok = false; }
+    if (!selectedSlot) { showErr(slotErr, 'Select a time slot'); ok = false; }
+    if (!date.value)   { showErr(dateErr, 'Select a date'); ok = false; }
+    if (presentStaffIds.length < 1) { showErr(staffErr, 'Select at least one staff member'); ok = false; }
+    if (!ok) return;
+
+    try {
+      teamLoading.classList.remove('hidden');
+      teamTableWrap.classList.add('hidden');
+      const ind = await getIndicatorsCached(selectedRoom, selectedSlot, 'Team'); /* ← кеш */
+      teamBody.innerHTML = ind.map((x, i) => `
+        <tr>
+          <td>${x.Category}</td>
+          <td>${x.Indicator}</td>
+          <td>
+            <select id="t_sel_${i}">
+              <option value="yes">Checked</option>
+              <option value="no">Not checked</option>
+            </select>
+          </td>
+          <td>
+            <textarea id="t_cmt_${i}"></textarea>
+            <div class="inline-err hidden" id="t_err_${i}">Comment required</div>
+          </td>
+        </tr>`).join('');
+      window.__teamIndicators = ind;
+      teamLoading.classList.add('hidden');
+      teamTableWrap.classList.remove('hidden');
+    } catch (e) {
+      teamLoading.classList.add('hidden');
+      showErr(teamValMsg, e.message || 'Load error');
+    }
+  });
+
+  teamConfirm.addEventListener('click', async () => {
+    hideErr(teamValMsg);
+    const ind = window.__teamIndicators || [];
+    if (!ind.length) { showErr(teamValMsg, 'No indicators to save'); return; }
+
+    let allOk = true;
+    const items = ind.map((x, i) => {
+      const check = document.getElementById(`t_sel_${i}`).value;
+      const cmt = document.getElementById(`t_cmt_${i}`);
+      const err = document.getElementById(`t_err_${i}`);
+      cmt.classList.remove('invalid'); err.classList.add('hidden');
+      if (check === 'no' && !String(cmt.value).trim()) { allOk = false; cmt.classList.add('invalid'); err.classList.remove('hidden'); }
+      return { category: x.Category, indicator: x.Indicator, check, comment: cmt.value };
+    });
+
+    if (!allOk) { showErr(teamValMsg, "Comment required for 'Not checked'"); return; }
+
+    __batchId = __batchId || `B-${Date.now()}`;
+    const payload = {
+      batchId: __batchId,
+      header: { date: toMMDDYYYY(date.value), roomCode: selectedRoom, slotCode: selectedSlot, presentStaffIds: [...presentStaffIds] },
+      items
+    };
+
+    try {
+      setBtnLoading(teamConfirm, true);
+      await api('saveTeamKPI', payload);
+      msg.textContent = 'Team KPI confirmed. Proceed to Individual KPI';
+      indGate.classList.remove('hidden');
+    } catch (e) {
+      showErr(teamValMsg, e.message || 'Save error');
+    } finally {
+      setBtnLoading(teamConfirm, false);
+    }
+  });
+
+  /* ==== Individual ==== */
+  breachSeg.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'BUTTON') return;
+    breachSeg.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+    e.target.classList.add('active');
+    const yes = e.target.dataset.val === 'yes';
+    if (yes) {
+      finishNo.classList.add('hidden');
+      indBlock.classList.remove('hidden');
+      indTableWrap.classList.add('hidden');
+    } else {
+      indBlock.classList.add('hidden');
+      indTableWrap.classList.add('hidden');
+      finishNo.classList.remove('hidden');
+    }
+  });
+
+  finishInd.addEventListener('click', async () => {
+    hideErr(indErr); hideErr(indValMsg);
+    if (!selectedIndStaff) { showErr(indErr, 'Select staff'); return; }
+    const ind = window.__indIndicators || [];
+    if (!ind.length) { showErr(indValMsg, 'No indicators to save'); return; }
+
+    let allOk = true;
+    const items = ind.map((x, i) => {
+      const check = document.getElementById(`i_sel_${i}`).value;
+      const cmt = document.getElementById(`i_cmt_${i}`);
+      const err = document.getElementById(`i_err_${i}`);
+      cmt.classList.remove('invalid'); err.classList.add('hidden');
+      if (check === 'no' && !String(cmt.value).trim()) { allOk = false; cmt.classList.add('invalid'); err.classList.remove('hidden'); }
+      return { category: x.Category, indicator: x.Indicator, check, comment: cmt.value };
+    });
+
+    if (!allOk) { showErr(indValMsg, "Comment required for 'Not checked'"); return; }
+
+    const payload = {
+      batchId: __batchId,
+      header: { date: toMMDDYYYY(date.value), roomCode: selectedRoom, slotCode: selectedSlot },
+      member: { staffId: selectedIndStaff },
+      items
+    };
+    try {
+      setBtnLoading(finishInd, true);
+      await api('saveIndividualKPI', payload);
+      msg.textContent = 'Saved. Returning to start.';
+      finishNo.classList.remove('hidden');
+      api('finalizeBatch', {
+        batchId: __batchId,
+        date: toMMDDYYYY(date.value),
+        slotCode: selectedSlot,
+        roomCode: selectedRoom,
+        by: 'ui'
+      }).catch(() => {});
+    } catch (e) {
+      showErr(indValMsg, e.message || 'Save error');
+    } finally {
+      setBtnLoading(finishInd, false);
+    }
+  });
+
+  /* ==== Finish ==== */
+  finishNoBtn.addEventListener('click', async () => {
+    try {
+      setBtnLoading(finishNoBtn, true);
+      // 🔹 За ТЗ: при "No breaches" треба зберегти індивідуальні 100% для всіх присутніх
+      __batchId = __batchId || `B-${Date.now()}`;
+      await api('saveIndividualKPI', {
+        batchId: __batchId,
+        header: {
+          date: toMMDDYYYY(date.value),
+          roomCode: selectedRoom,
+          slotCode: selectedSlot,
+          presentStaffIds: [...presentStaffIds]
+        },
+        items: [] // сигнал GAS створити Default=yes по кожному
+      });
+
+      msg.textContent = 'Saved. Returning to start...';
+      setTimeout(() => location.reload(), 1500);
+
+      // Fire-and-forget: перерахунок Summary у фоні, панель не чекає
+      api('finalizeBatch', {
+        batchId: __batchId,
+        date: toMMDDYYYY(date.value),
+        slotCode: selectedSlot,
+        roomCode: selectedRoom,
+        by: 'ui'
+      }).catch(() => {});
+    } catch (e) {
+      showErr(msg, 'Finalize error: ' + e.message);
+    } finally {
+      setBtnLoading(finishNoBtn, false);
+    }
+  });
+</script>
+</body>
+</html>

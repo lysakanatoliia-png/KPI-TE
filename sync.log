@@ -1,0 +1,517 @@
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?run=1' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?run=1]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600781' ...
+{"ok":true,"sent":3,"left":0,"debug":[{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxEev8EjU1RDVDRItczi8Vq7Yjr52w6FGINo3-u94ZtriXISP3G6UUohmphk7vAjsY1lw\/exec","payload":"{\"action\":\"saveTeamKPI\",\"payload\":{\"batchId\":\"B-1758599404314\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Pink\",\"slotCode\":\"09AM_11AM\",\"presentStaffIds\":[\"st_tamar\",\"st_ella\",\"st_malahat\"]},\"items\":[{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Make sure all teachers are marked in the system. check in\\\/check out\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Is the classroom temperature comfortable and is the air fresh?\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Cleanliness of the classroom upon entry.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"The classroom is prepared for the weekly theme (bookcase, bulletin board, tabletop, d\u00e9cor).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"TE bags are checked & sorted (change of clothes, bottles, lunch bags, diapers, toys, etc)\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Positive classroom atmosphere: children are engaged, well behaved.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Bottles are counted and filled with water.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Tables are properly sanitized.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check the cleanliness of the bathrooms and the room.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Tables are disinfected properly and 2 min before kids.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Tables & under tables are clean after meals.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"The children\u2019s diapers are changed \\\/ bags with soiled clothes are labeled.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check kitchenette, cubbies, dishwasher and plates\\\/utensils for cleanliness.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Compliance with the RATIO.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Compliance with RATIO\\\/ZONING (during outdoor time).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Children\u2019s allergies and dietary preferences are taken into account and followed.\",\"check\":\"yes\",\"comment\":\"\"}],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":48,\"logs\":48}","resJson":{"ok":true,"written":48,"logs":48},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxEev8EjU1RDVDRItczi8Vq7Yjr52w6FGINo3-u94ZtriXISP3G6UUohmphk7vAjsY1lw\/exec","payload":"{\"action\":\"saveIndividualKPI\",\"payload\":{\"batchId\":\"B-1758599404314\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Pink\",\"slotCode\":\"09AM_11AM\",\"presentStaffIds\":[\"st_tamar\",\"st_ella\",\"st_malahat\"]},\"items\":[],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":27,\"logs\":27}","resJson":{"ok":true,"written":27,"logs":27},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxEev8EjU1RDVDRItczi8Vq7Yjr52w6FGINo3-u94ZtriXISP3G6UUohmphk7vAjsY1lw\/exec","payload":"{\"action\":\"finalizeBatch\",\"payload\":{\"batchId\":\"B-1758599404314\",\"date\":\"09-23-2025\",\"slotCode\":\"09AM_11AM\",\"roomCode\":\"Pink\",\"by\":\"ui\"}}","http":200,"resRaw":"{\"ok\":true,\"writtenDay\":6,\"writtenMonth\":6,\"writtenQuarter\":6}","resJson":{"ok":true,"writtenDay":6,"writtenMonth":6,"writtenQuarter":6},"err":""},{"info":"STORE_FILE deleted after successful sync"}]}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600781]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600841' ...
+{"ok":true,"sent":1,"left":0,"debug":[{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxEev8EjU1RDVDRItczi8Vq7Yjr52w6FGINo3-u94ZtriXISP3G6UUohmphk7vAjsY1lw\/exec","payload":"{\"action\":\"saveTeamKPI\",\"payload\":{\"batchId\":\"B-1758600911455\",\"header\":{\"date\":\"09-30-2025\",\"roomCode\":\"Blue\",\"slotCode\":\"01PM_03PM\",\"presentStaffIds\":[\"st_adilene\",\"st_soumi\"]},\"items\":[{\"category\":\"Safety & Ratio\",\"indicator\":\"Check if one teacher can stay for nap time (and assist if needed).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check kitchenette: food stored properly, pots washed. cubbinets, dishwasher and plates\\\/utensils are clean\",\"check\":\"yes\",\"comment\":\"\"}],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":4,\"logs\":4}","resJson":{"ok":true,"written":4,"logs":4},"err":""},{"info":"STORE_FILE deleted after successful sync"},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxEev8EjU1RDVDRItczi8Vq7Yjr52w6FGINo3-u94ZtriXISP3G6UUohmphk7vAjsY1lw\/exec","action":"rebuildSummaries","payload":{"action":"rebuildSummaries","payload":{"date":"09-30-2025"}},"http":200,"resRaw":"{\"ok\":true,\"writtenDay\":8,\"writtenMonth\":6,\"writtenQuarter\":6}","resJson":{"ok":true,"writtenDay":8,"writtenMonth":6,"writtenQuarter":6},"err":""}]}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600841]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600901' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600901]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600961' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758600961]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601021' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601021]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601081' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601081]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601141' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601141]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601201' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601261' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601261]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601321' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601321]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601381' ...
+{"ok":true,"sent":7,"left":0,"debug":[{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveTeamKPI\",\"payload\":{\"batchId\":\"B-1758601415052\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Blue\",\"slotCode\":\"03PM_06PM\",\"presentStaffIds\":[\"st_adilene\",\"st_soumi\"]},\"items\":[{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Copies and materials are prepared before the start of the lesson.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Lesson plans are prepared every Thursday (for the following week).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Monitor teacher check-out and review records.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Ensure parents are informed of all necessary situation.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Has the trash been taken out? Floors are clean Mon, Tue, Thu.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Toys are put away from the playground \\\/ wood chips are cleared rooster has food and water.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Check for forgotten items and bring them inside.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if the children have been given snacks.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check the cleanliness of the bathrooms and the room.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Tables and under tables are clean after meals.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Water bottles are washed and filled.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if the children are brushed.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if the children have been changed into clean clothes after nap time.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if sunscreen has been applied.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check for the presence of sun hats and appropriate clothing.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Compliance with the RATIO.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Compliance with RATIO\\\/ZONING (during outdoor time).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Children\u2019s allergies and dietary preferences are taken into account and followed.\",\"check\":\"yes\",\"comment\":\"\"}],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":36,\"logs\":36}","resJson":{"ok":true,"written":36,"logs":36},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveIndividualKPI\",\"payload\":{\"batchId\":\"B-1758601415052\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Blue\",\"slotCode\":\"03PM_06PM\"},\"member\":{\"staffId\":\"st_adilene\"},\"items\":[{\"category\":\"Individual\",\"indicator\":\"Punctuality (Be ready on time)\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Kind and friendly behavior with children.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Addressing accidents\\\/incidents properly (reporting to admins\\\/parents \\\/ talk to child \\\/ circle time)\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Quality prep for learning time and professional implementation.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Code of conduct.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Proper preparation and distribution of food\\\/meals (correct meal size \\\/ gloves \\\/ cut and peel \\\/ temperature)\",\"check\":\"no\",\"comment\":\"55555555555555555\"},{\"category\":\"Individual\",\"indicator\":\"Timely check-in \\\/ check-out.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Warning notice(s).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Individual\",\"indicator\":\"Parking Zone Check.\",\"check\":\"yes\",\"comment\":\"\"}],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":9,\"logs\":9}","resJson":{"ok":true,"written":9,"logs":9},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveIndividualKPI\",\"payload\":{\"batchId\":\"B-1758601415052\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Blue\",\"slotCode\":\"03PM_06PM\",\"presentStaffIds\":[\"st_adilene\",\"st_soumi\"]},\"items\":[],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":9,\"logs\":9}","resJson":{"ok":true,"written":9,"logs":9},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"finalizeBatch\",\"payload\":{\"batchId\":\"B-1758601415052\",\"date\":\"09-23-2025\",\"slotCode\":\"03PM_06PM\",\"roomCode\":\"Blue\",\"by\":\"ui\"}}","http":200,"resRaw":"{\"ok\":true,\"writtenDay\":8,\"writtenMonth\":6,\"writtenQuarter\":6}","resJson":{"ok":true,"writtenDay":8,"writtenMonth":6,"writtenQuarter":6},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveTeamKPI\",\"payload\":{\"batchId\":\"B-1758601439387\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Blue\",\"slotCode\":\"ONCE_DAY\",\"presentStaffIds\":[\"st_adilene\",\"st_soumi\"]},\"items\":[{\"category\":\"Classroom organization\",\"indicator\":\"Beds, boxes, shelves, hooks, and diapers are labeled.\",\"check\":\"yes\",\"comment\":\"\"}],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":2,\"logs\":2}","resJson":{"ok":true,"written":2,"logs":2},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveIndividualKPI\",\"payload\":{\"batchId\":\"B-1758601439387\",\"header\":{\"date\":\"09-23-2025\",\"roomCode\":\"Blue\",\"slotCode\":\"ONCE_DAY\",\"presentStaffIds\":[\"st_adilene\",\"st_soumi\"]},\"items\":[],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":18,\"logs\":18}","resJson":{"ok":true,"written":18,"logs":18},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"finalizeBatch\",\"payload\":{\"batchId\":\"B-1758601439387\",\"date\":\"09-23-2025\",\"slotCode\":\"ONCE_DAY\",\"roomCode\":\"Blue\",\"by\":\"ui\"}}","http":200,"resRaw":"{\"ok\":true,\"writtenDay\":8,\"writtenMonth\":6,\"writtenQuarter\":6}","resJson":{"ok":true,"writtenDay":8,"writtenMonth":6,"writtenQuarter":6},"err":""},{"info":"STORE_FILE deleted after successful sync"}]}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601381]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601441' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601441]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601501' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601501]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601561' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601561]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601621' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601621]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601681' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601681]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601741' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601741]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601801' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601861' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601861]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601921' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601921]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601981' ...
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602041' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602041]
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758601981]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602101' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602101]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602161' ...
+{"ok":true,"sent":3,"left":0,"debug":[{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveTeamKPI\",\"payload\":{\"batchId\":\"B-1758602231951\",\"header\":{\"date\":\"09-26-2025\",\"roomCode\":\"Green\",\"slotCode\":\"03PM_06PM\",\"presentStaffIds\":[\"st_natalia\",\"st_alison\",\"st_crystal\"]},\"items\":[{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Copies and materials are prepared before the start of the lesson.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Lesson plans are prepared every Thursday (for the following week).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Monitor teacher check-out and review records.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Educational Readiness and Execution\",\"indicator\":\"Ensure parents are informed of all necessary situation.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Has the trash been taken out? Floors are clean Mon, Tue, Thu.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Toys are put away from the playground \\\/ wood chips are cleared rooster has food and water.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Environment\",\"indicator\":\"Check for forgotten items and bring them inside.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if the children have been given snacks.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check the cleanliness of the bathrooms and the room.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Tables and under tables are clean after meals.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Water bottles are washed and filled.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if the children are brushed.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if the children have been changed into clean clothes after nap time.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check if sunscreen has been applied.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Hygiene & Care\",\"indicator\":\"Check for the presence of sun hats and appropriate clothing.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Compliance with the RATIO.\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Compliance with RATIO\\\/ZONING (during outdoor time).\",\"check\":\"yes\",\"comment\":\"\"},{\"category\":\"Safety & Ratio\",\"indicator\":\"Children\u2019s allergies and dietary preferences are taken into account and followed.\",\"check\":\"yes\",\"comment\":\"\"}],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":54,\"logs\":54}","resJson":{"ok":true,"written":54,"logs":54},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"saveIndividualKPI\",\"payload\":{\"batchId\":\"B-1758602231951\",\"header\":{\"date\":\"09-26-2025\",\"roomCode\":\"Green\",\"slotCode\":\"03PM_06PM\",\"presentStaffIds\":[\"st_natalia\",\"st_alison\",\"st_crystal\"]},\"items\":[],\"by\":\"ui\",\"indicatorsVersion\":\"v1\"}}","http":200,"resRaw":"{\"ok\":true,\"written\":27,\"logs\":27}","resJson":{"ok":true,"written":27,"logs":27},"err":""},{"url":"https:\/\/script.google.com\/macros\/s\/AKfycbxQmsdwn9pdJGRmXmWCCRTLlhi270z-H68G04GMplUz5KlyT0WowgEmRzD8Mg341QGcZg\/exec","payload":"{\"action\":\"finalizeBatch\",\"payload\":{\"batchId\":\"B-1758602231951\",\"date\":\"09-26-2025\",\"slotCode\":\"03PM_06PM\",\"roomCode\":\"Green\",\"by\":\"ui\"}}","http":200,"resRaw":"{\"ok\":true,\"writtenDay\":6,\"writtenMonth\":6,\"writtenQuarter\":6}","resJson":{"ok":true,"writtenDay":6,"writtenMonth":6,"writtenQuarter":6},"err":""},{"info":"STORE_FILE deleted after successful sync"}]}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602161]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602221' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602221]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602281' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602281]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602341' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602341]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602401' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758602401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758603601' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758603601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758605401' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758605401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758607201' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758607201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758609001' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758609001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758610801' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758610801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758612601' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758612601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758614401' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758614401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758616201' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758616201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758618001' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758618001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758619801' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758619801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758621601' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758621601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758623401' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758623401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758625201' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758625201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758627001' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758627001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758628801' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758628801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758630601' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758630601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758632401' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758632401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758634201' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758634201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758636001' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758636001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758637801' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758637801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758639601' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758639601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758641401' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758641401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758643201' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758643201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758645001' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758645001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758646801' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758646801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758648601' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758648601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758650401' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758650401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758652201' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758652201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758654001' ...
+{
+    "ok": true,
+    "sent": 1,
+    "left": 0,
+    "debug": [
+        {
+            "payload": {
+                "action": "finalizeBatch",
+                "payload": {
+                    "batchId": "B-1758653110519",
+                    "date": "09-23-2025",
+                    "slotCode": "11AM_01PM",
+                    "roomCode": "Green",
+                    "by": "ui"
+                }
+            },
+            "result": {
+                "http": 200,
+                "resRaw": "{\"ok\":true,\"writtenDay\":3,\"writtenMonth\":3,\"writtenQuarter\":3}",
+                "resJson": {
+                    "ok": true,
+                    "writtenDay": 3,
+                    "writtenMonth": 3,
+                    "writtenQuarter": 3
+                },
+                "err": "",
+                "ok": true
+            }
+        }
+    ]
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758654001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758655801' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758655801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758657601' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758657601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758659401' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758659401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758661201' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758661201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758663001' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758663001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758664801' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758664801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758666601' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758666601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758668401' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758668401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758670201' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758670201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758672001' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758672001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758673801' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758673801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758675601' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758675601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758677401' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758677401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758679201' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758679201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758681001' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758681001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758682801' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758682801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758684601' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758684601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758686401' ...
+{
+    "ok": true,
+    "sent": 0,
+    "left": 0,
+    "debug": []
+}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758686401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758688201' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758688201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758690001' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758690001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758691801' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758691801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758693601' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758693601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758695401' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758695401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758697201' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758697201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758699001' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758699001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758700801' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758700801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758702601' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758702601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758704401' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758704401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758706201' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758706201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758708001' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758708001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758709801' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758709801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758711601' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758711601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758713401' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758713401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758715201' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758715201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758717001' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758717001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758718801' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758718801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758720601' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758720601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758722401' ...
+HTTP ERROR response 504  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758722401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758724201' ...
+{"ok":true,"msg":"Nothing to sync","sent":0}HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758724201]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758726001' ...
+[FAIL] saveTeamKPI B-1758724818726 
+[FAIL] saveIndividualKPI B-1758724818726 
+[FAIL] finalizeBatch B-1758724818726 
+[FAIL] saveTeamKPI B-1758724828694 
+[FAIL] saveIndividualKPI B-1758724828694 
+[FAIL] finalizeBatch B-1758724828694 
+[FAIL] saveTeamKPI B-1758724845161 
+[FAIL] saveIndividualKPI B-1758724845161 
+[FAIL] finalizeBatch B-1758724845161 
+[FAIL] saveTeamKPI B-1758724860760 
+[FAIL] saveIndividualKPI B-1758724860760 
+[FAIL] saveIndividualKPI B-1758724860760 
+[FAIL] finalizeBatch B-1758724860760 
+[FAIL] saveTeamKPI B-1758724878528 
+[FAIL] saveIndividualKPI B-1758724878528 
+[FAIL] finalizeBatch B-1758724878528 
+[FAIL] saveTeamKPI B-1758724897952 
+[FAIL] saveIndividualKPI B-1758724897952 
+[FAIL] finalizeBatch B-1758724897952 
+[FAIL] saveTeamKPI B-1758724912677 
+[FAIL] saveIndividualKPI B-1758724912677 
+[FAIL] saveIndividualKPI B-1758724912677 
+[FAIL] finalizeBatch B-1758724912677 
+[FAIL] saveTeamKPI B-1758724932270 
+[FAIL] saveIndividualKPI B-1758724932270 
+[FAIL] finalizeBatch B-1758724932270 
+[FAIL] saveTeamKPI B-1758724948434 
+[FAIL] saveIndividualKPI B-1758724948434 
+[FAIL] finalizeBatch B-1758724948434 
+[FAIL] saveTeamKPI B-1758724960628 
+[FAIL] saveIndividualKPI B-1758724960628 
+[FAIL] saveIndividualKPI B-1758724960628 
+[FAIL] finalizeBatch B-1758724960628 
+[FAIL] saveTeamKPI B-1758724985410 
+[FAIL] saveIndividualKPI B-1758724985410 
+[FAIL] finalizeBatch B-1758724985410 
+[FAIL] saveTeamKPI B-1758724996004 
+[FAIL] saveIndividualKPI B-1758724996004 
+[FAIL] finalizeBatch B-1758724996004 
+[FAIL] saveTeamKPI B-1758725007026 
+[FAIL] saveIndividualKPI B-1758725007026 
+[FAIL] finalizeBatch B-1758725007026 
+[FAIL] saveTeamKPI B-1758725017364 
+[FAIL] saveIndividualKPI B-1758725017364 
+[FAIL] finalizeBatch B-1758725017364 
+[FAIL] saveTeamKPI B-1758725027410 
+[FAIL] saveIndividualKPI B-1758725027410 
+[FAIL] finalizeBatch B-1758725027410 
+[FAIL] saveTeamKPI B-1758725046350 
+[FAIL] saveIndividualKPI B-1758725046350 
+[FAIL] finalizeBatch B-1758725046350 
+Sync done. Left: 0
+HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758726001]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758727801' ...
+Nothing to send
+HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758727801]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758729601' ...
+Nothing to send
+HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758729601]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758731401' ...
+[FAIL] saveTeamKPI B-1758724818726
+[FAIL] saveIndividualKPI B-1758724818726
+[FAIL] finalizeBatch B-1758724818726
+[FAIL] saveTeamKPI B-1758724828694
+[FAIL] saveIndividualKPI B-1758724828694
+[FAIL] finalizeBatch B-1758724828694
+[FAIL] saveTeamKPI B-1758724845161
+[FAIL] saveIndividualKPI B-1758724845161
+[FAIL] finalizeBatch B-1758724845161
+[FAIL] saveTeamKPI B-1758724860760
+[FAIL] saveIndividualKPI B-1758724860760
+[FAIL] saveIndividualKPI B-1758724860760
+[FAIL] finalizeBatch B-1758724860760
+[FAIL] saveTeamKPI B-1758724878528
+[FAIL] saveIndividualKPI B-1758724878528
+[FAIL] finalizeBatch B-1758724878528
+[FAIL] saveTeamKPI B-1758724897952
+[FAIL] saveIndividualKPI B-1758724897952
+[FAIL] finalizeBatch B-1758724897952
+[FAIL] saveTeamKPI B-1758724912677
+[FAIL] saveIndividualKPI B-1758724912677
+[FAIL] saveIndividualKPI B-1758724912677
+[FAIL] finalizeBatch B-1758724912677
+[FAIL] saveTeamKPI B-1758724932270
+[FAIL] saveIndividualKPI B-1758724932270
+[FAIL] finalizeBatch B-1758724932270
+[FAIL] saveTeamKPI B-1758724948434
+[FAIL] saveIndividualKPI B-1758724948434
+[FAIL] finalizeBatch B-1758724948434
+[FAIL] saveTeamKPI B-1758724960628
+[FAIL] saveIndividualKPI B-1758724960628
+[FAIL] saveIndividualKPI B-1758724960628
+[FAIL] finalizeBatch B-1758724960628
+[FAIL] saveTeamKPI B-1758724985410
+[FAIL] saveIndividualKPI B-1758724985410
+[FAIL] finalizeBatch B-1758724985410
+[FAIL] saveTeamKPI B-1758724996004
+[FAIL] saveIndividualKPI B-1758724996004
+[FAIL] finalizeBatch B-1758724996004
+[FAIL] saveTeamKPI B-1758725007026
+[FAIL] saveIndividualKPI B-1758725007026
+[FAIL] finalizeBatch B-1758725007026
+[FAIL] saveTeamKPI B-1758725017364
+[FAIL] saveIndividualKPI B-1758725017364
+[FAIL] finalizeBatch B-1758725017364
+[FAIL] saveTeamKPI B-1758725027410
+[FAIL] saveIndividualKPI B-1758725027410
+[FAIL] finalizeBatch B-1758725027410
+[FAIL] saveTeamKPI B-1758725046350
+[FAIL] saveIndividualKPI B-1758725046350
+[FAIL] finalizeBatch B-1758725046350
+Sync done. Left: 0
+HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758731401]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758733202' ...
+Nothing to send
+HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758733202]
+[0] Downloading 'https://dev.tinyeinstein.org/kpi/sync.php?ts=1758735001' ...
+[FAIL] saveTeamKPI B-1758724818726
+[FAIL] saveIndividualKPI B-1758724818726
+[FAIL] finalizeBatch B-1758724818726
+[FAIL] saveTeamKPI B-1758724828694
+[FAIL] saveIndividualKPI B-1758724828694
+[FAIL] finalizeBatch B-1758724828694
+[FAIL] saveTeamKPI B-1758724845161
+[FAIL] saveIndividualKPI B-1758724845161
+[FAIL] finalizeBatch B-1758724845161
+[FAIL] saveTeamKPI B-1758724860760
+[FAIL] saveIndividualKPI B-1758724860760
+[FAIL] saveIndividualKPI B-1758724860760
+[FAIL] finalizeBatch B-1758724860760
+[FAIL] saveTeamKPI B-1758724878528
+[FAIL] saveIndividualKPI B-1758724878528
+[FAIL] finalizeBatch B-1758724878528
+[FAIL] saveTeamKPI B-1758724897952
+[FAIL] saveIndividualKPI B-1758724897952
+[FAIL] finalizeBatch B-1758724897952
+[FAIL] saveTeamKPI B-1758724912677
+[FAIL] saveIndividualKPI B-1758724912677
+[FAIL] saveIndividualKPI B-1758724912677
+[FAIL] finalizeBatch B-1758724912677
+[FAIL] saveTeamKPI B-1758724932270
+[FAIL] saveIndividualKPI B-1758724932270
+[FAIL] finalizeBatch B-1758724932270
+[FAIL] saveTeamKPI B-1758724948434
+[FAIL] saveIndividualKPI B-1758724948434
+[FAIL] finalizeBatch B-1758724948434
+[FAIL] saveTeamKPI B-1758724960628
+[FAIL] saveIndividualKPI B-1758724960628
+[FAIL] saveIndividualKPI B-1758724960628
+[FAIL] finalizeBatch B-1758724960628
+[FAIL] saveTeamKPI B-1758724985410
+[FAIL] saveIndividualKPI B-1758724985410
+[FAIL] finalizeBatch B-1758724985410
+[FAIL] saveTeamKPI B-1758724996004
+[FAIL] saveIndividualKPI B-1758724996004
+[FAIL] finalizeBatch B-1758724996004
+[FAIL] saveTeamKPI B-1758725007026
+[FAIL] saveIndividualKPI B-1758725007026
+[FAIL] finalizeBatch B-1758725007026
+[FAIL] saveTeamKPI B-1758725017364
+[FAIL] saveIndividualKPI B-1758725017364
+[FAIL] finalizeBatch B-1758725017364
+[FAIL] saveTeamKPI B-1758725027410
+[FAIL] saveIndividualKPI B-1758725027410
+[FAIL] finalizeBatch B-1758725027410
+[FAIL] saveTeamKPI B-1758725046350
+[FAIL] saveIndividualKPI B-1758725046350
+[FAIL] finalizeBatch B-1758725046350
+Sync done. Left: 0
+HTTP response 200  [https://dev.tinyeinstein.org/kpi/sync.php?ts=1758735001]
