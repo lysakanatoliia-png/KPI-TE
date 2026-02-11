@@ -484,6 +484,13 @@ async function getIndicatorsCached(roomCode, slotCode, scope) {
   return filtered.map(i => ({ Category:G.indCat(i), Indicator:G.indText(i), _raw:i }));
 }
 
+// ===== XSS protection =====
+function esc(str) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(String(str ?? '')));
+  return d.innerHTML;
+}
+
 // ===== UI HELPERS =====
 function toMMDDYYYY(str) {
   if (!str) return '';
@@ -507,7 +514,7 @@ function closePanels(except) {
 function renderDropdown(panel, items, labelEl, onSelect) {
   if (!panel) return;
   info('[UI] renderDropdown into', panel.id, 'items:', items.length);
-  panel.innerHTML = items.map(x => `<div class="opt" data-val="${String(x.value)}">${x.label}</div>`).join('');
+  panel.innerHTML = items.map(x => `<div class="opt" data-val="${esc(x.value)}">${esc(x.label)}</div>`).join('');
   panel.querySelectorAll('.opt').forEach(opt => {
     opt.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -661,8 +668,8 @@ function renderStaffMulti() {
   }
   const listHtml = staffList.map(s => `
     <label class="opt">
-      <input type="checkbox" value="${s.StaffId}" ${presentStaffIds.includes(s.StaffId) ? 'checked' : ''}/>
-      <span>${s.StaffName}</span>
+      <input type="checkbox" value="${esc(s.StaffId)}" ${presentStaffIds.includes(s.StaffId) ? 'checked' : ''}/>
+      <span>${esc(s.StaffName)}</span>
     </label>`).join('');
 
   staffPanel.innerHTML = `
@@ -723,8 +730,8 @@ async function loadStaffByRoom(roomCode) {
         info('[IND] indicators count', ind.length);
         indBody.innerHTML = ind.map((x, i) => `
           <tr>
-            <td>${x.Category}</td>
-            <td>${x.Indicator}</td>
+            <td>${esc(x.Category)}</td>
+            <td>${esc(x.Indicator)}</td>
             <td>
               <select id="i_sel_${i}">
                 <option value="yes">Checked</option>

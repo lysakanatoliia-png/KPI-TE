@@ -1,5 +1,7 @@
 <?php
-ini_set('display_errors', 1);
+require_once __DIR__ . '/config.php';
+
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 // === NO-CACHE HEADERS ===
@@ -9,9 +11,7 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 // === CONFIG ===
-const GAS_BASE = 'https://script.google.com/macros/s/AKfycbyaKCX36VTb-yGwXlUrmIYL1rgtdVpd3dU_kzaXkmDaOYcQoFF03JMRXPknKb8jfhXScQ/exec';
-$GAS_GET_ALL   = GAS_BASE . '?action=getAll';
-define('DATA_JSON_PATH', __DIR__ . '/data.json');
+$GAS_GET_ALL = KPI_GAS_READ_URL . '?action=getAll';
 
 function respond_json($payload, $code=200){
   http_response_code($code);
@@ -22,7 +22,6 @@ function respond_json($payload, $code=200){
 
 if (isset($_GET['run'])) {
   try {
-    // Додаємо таймштамп щоб GAS теж не кешував
     $url = $GAS_GET_ALL . '&_ts=' . time();
     $raw = @file_get_contents($url);
     if (!$raw) respond_json(['ok'=>false,'error'=>'Failed to fetch from GAS','url'=>$url],502);
@@ -40,7 +39,6 @@ if (isset($_GET['run'])) {
       respond_json(['ok'=>false,'error'=>'Missing keys: '.implode(', ',$miss),'got'=>array_keys($payload)],500);
     }
 
-    // overwrite data.json (також з анти-кешом)
     $meta = ['generatedAt'=>gmdate('c'),'source'=>'GAS','version'=>$payload['_meta']['version']??'v1'];
     $combined = [
       'rooms'=>$payload['rooms'],
@@ -49,7 +47,7 @@ if (isset($_GET['run'])) {
       'staff'=>$payload['staff'],
       '_meta'=>$meta
     ];
-    file_put_contents(DATA_JSON_PATH,json_encode($combined,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+    file_put_contents(KPI_DATA_FILE,json_encode($combined,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES), LOCK_EX);
 
     respond_json([
       'ok'=>true,
@@ -100,20 +98,19 @@ if (isset($_GET['run'])) {
       const btn = document.getElementById('btn');
       const msg = document.getElementById('msg');
       btn.disabled = true;
-      msg.textContent = '⏳ Updating...';
+      msg.textContent = 'Updating...';
       try {
-        // додаємо анти-кеш параметр _t
         const res = await fetch('?run=1&_t=' + Date.now(), {cache:'no-store'});
         const txt = await res.text();
         let data;
-        try { data = JSON.parse(txt); } catch(e){ throw new Error('Invalid JSON:\n'+txt); }
+        try { data = JSON.parse(txt); } catch(e){ throw new Error('Invalid JSON:\\n'+txt); }
 
         if (!res.ok || !data.ok) throw new Error(data.error || ('HTTP '+res.status));
 
         msg.textContent =
-          `✅ Done!\nRooms: ${data.counts.rooms}\nSlots: ${data.counts.slots}\nIndicators: ${data.counts.indicators}\nStaff: ${data.counts.staff}`;
+          `Done!\nRooms: ${data.counts.rooms}\nSlots: ${data.counts.slots}\nIndicators: ${data.counts.indicators}\nStaff: ${data.counts.staff}`;
       } catch(e) {
-        msg.textContent = '❌ ' + e.message;
+        msg.textContent = 'Error: ' + e.message;
       } finally {
         btn.disabled = false;
       }

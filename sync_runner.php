@@ -1,33 +1,35 @@
 <?php
 // sync_runner.php — циклічно викликає sync.php поки є pending
 
-const STORE_FILE = __DIR__ . '/store.json';
-const MAX_ATTEMPTS = 100;   // максимум повторів
-const DELAY_SEC   = 30;    // пауза між циклами
+require_once __DIR__ . '/config.php';
 
-function hasPending(){
-    if(!file_exists(STORE_FILE)) return false;
-    $data = json_decode(file_get_contents(STORE_FILE), true);
+$maxAttempts = KPI_SYNC_MAX_ATTEMPTS;
+$delaySec    = KPI_SYNC_DELAY_SEC;
+$storeFile   = KPI_STORE_FILE;
+
+function hasPending($storeFile){
+    if(!file_exists($storeFile)) return false;
+    $data = json_decode(file_get_contents($storeFile), true);
     return !empty($data['pending']);
 }
 
 $attempt = 1;
-while($attempt <= MAX_ATTEMPTS){
+while($attempt <= $maxAttempts){
     echo "=== Attempt $attempt ===\n";
 
     // виклик sync.php
     passthru("php ".__DIR__."/sync.php");
 
-    if(!hasPending()){
+    if(!hasPending($storeFile)){
         echo "All pending entries sent!\n";
         break;
     }
 
-    echo "Pending left, waiting ".DELAY_SEC." sec...\n";
-    sleep(DELAY_SEC);
+    echo "Pending left, waiting {$delaySec} sec...\n";
+    sleep($delaySec);
     $attempt++;
 }
 
-if($attempt > MAX_ATTEMPTS){
-    echo "Reached MAX_ATTEMPTS, still pending left.\n";
+if($attempt > $maxAttempts){
+    echo "Reached MAX_ATTEMPTS ({$maxAttempts}), still pending left.\n";
 }

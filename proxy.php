@@ -1,21 +1,43 @@
 <?php
-// proxy1.php — GAS proxy (hardened)
+// proxy.php — GAS proxy (hardened) with auth support
 
-$GAS_URL = "https://script.google.com/macros/s/AKfycbyQzYk2WQXz_p6ixA-Y-rufp_LsIJNN03Emw0EPBRndAJxe2SInOrNargU4BnRPx-Gx/exec";
+require_once __DIR__ . '/config.php';
 
-// --- CORS (безпечно навіть на same-origin)
-header('Access-Control-Allow-Origin: *');
+// ===== Auth check =====
+function checkAuth(): bool {
+    $token = KPI_AUTH_TOKEN;
+    if ($token === '') return true;
+    $provided = $_GET['token'] ?? $_SERVER['HTTP_X_AUTH_TOKEN'] ?? '';
+    return hash_equals($token, $provided);
+}
+
+// --- CORS
+header('Access-Control-Allow-Origin: ' . KPI_CORS_ORIGIN);
 header('Vary: Origin');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Auth-Token');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(204);
   exit;
 }
 
+// Auth
+if (!checkAuth()) {
+  http_response_code(401);
+  header('Content-Type: application/json; charset=utf-8');
+  echo json_encode(['ok' => false, 'error' => 'Unauthorized']);
+  exit;
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $qs = $_SERVER['QUERY_STRING'] ?? '';
+
+// Remove auth token from forwarded query string
+$qs = preg_replace('/(\?|&)?token=[^&]*/', '', $qs);
+$qs = ltrim($qs, '&');
+
+$GAS_URL = KPI_GAS_UPLOAD_URL;
 
 $ch = curl_init();
 $url = $GAS_URL . ($method === 'GET' && $qs ? ('?'.$qs) : '');
@@ -28,22 +50,19 @@ curl_setopt_array($ch, [
   CURLOPT_TIMEOUT        => 25,
   CURLOPT_SSL_VERIFYPEER => true,
   CURLOPT_SSL_VERIFYHOST => 2,
-  CURLOPT_ENCODING       => '',                // gzip/deflate
-  CURLOPT_USERAGENT      => 'KPI-Proxy/1.0',
+  CURLOPT_ENCODING       => '',
+  CURLOPT_USERAGENT      => 'KPI-Proxy/2.0',
 ]);
 
 $headers = ['Accept: application/json, text/plain;q=0.9, */*;q=0.8'];
 if ($method === 'POST') {
   $body = file_get_contents('php://input') ?: '';
-  $headers[] = 'Expect:';                      // без 100-continue
+  $headers[] = 'Expect:';
   $headers[] = 'Content-Type: application/json';
   curl_setopt($ch, CURLOPT_POST, true);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 }
 
-// Проброс мінімального контексту
-$headers[] = 'X-Forwarded-For: ' . ($_SERVER['REMOTE_ADDR'] ?? '');
-$headers[] = 'X-Forwarded-Proto: ' . (!empty($_SERVER['HTTPS']) ? 'https' : 'http');
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $resp   = curl_exec($ch);
@@ -60,16 +79,15 @@ if ($errno) {
   exit;
 }
 
-// Якщо GAS віддав HTML (часто через неправильний деплой) — злови і поясни
+// Якщо GAS віддав HTML (часто через неправильний деплой)
 if (stripos($ctype, 'text/html') !== false) {
   http_response_code(502);
   header('Content-Type: application/json; charset=utf-8');
   echo json_encode(['ok'=>false,'code'=>'GAS_HTML',
-    'message'=>'GAS повернув HTML. Перевір деплой Web App: Execute as "Me", Access "Anyone with the link".'], JSON_UNESCAPED_UNICODE);
+    'message'=>'GAS returned HTML instead of JSON. Check Web App deployment: Execute as "Me", Access "Anyone".'], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
-// Проброс статусу, типу, кешу
 http_response_code($http ?: 200);
 header('Content-Type: ' . (strpos($ctype, 'json') !== false ? $ctype : 'application/json; charset=utf-8'));
 header('Cache-Control: no-store, max-age=0');

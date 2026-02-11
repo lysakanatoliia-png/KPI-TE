@@ -282,6 +282,13 @@
   // Зміни шлях за потреби: proxy1.php або proxy.php
   const WEBAPP_URL = '/kpi/proxy.php';
 
+  /* ==== XSS protection ==== */
+  function esc(str) {
+    const d = document.createElement('div');
+    d.appendChild(document.createTextNode(String(str ?? '')));
+    return d.innerHTML;
+  }
+
   /* ==== API ==== */
   async function api(action, payload = {}) {
     const r = await fetch(WEBAPP_URL, {
@@ -378,7 +385,7 @@
     [roomPanel, slotPanel, staffPanel, indStaffPanel].forEach((p) => { if (p && p !== except) p.classList.add('hidden'); });
   }
   function renderDropdown(panel, items, labelEl, onSelect) {
-    panel.innerHTML = items.map((x) => `<div class="opt" data-val="${x.value}">${x.label}</div>`).join('');
+    panel.innerHTML = items.map((x) => `<div class="opt" data-val="${esc(x.value)}">${esc(x.label)}</div>`).join('');
     panel.querySelectorAll('.opt').forEach((opt) => {
       opt.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -519,8 +526,8 @@
     }
     const listHtml = staffList.map(s => `
       <label class="opt">
-        <input type="checkbox" value="${s.StaffId}" ${presentStaffIds.includes(s.StaffId) ? 'checked' : ''}/>
-        <span>${s.StaffName}</span>
+        <input type="checkbox" value="${esc(s.StaffId)}" ${presentStaffIds.includes(s.StaffId) ? 'checked' : ''}/>
+        <span>${esc(s.StaffName)}</span>
       </label>`).join('');
 
     staffPanel.innerHTML = `
@@ -582,8 +589,8 @@
           const ind = await getIndicatorsCached(selectedRoom, selectedSlot, 'Individual'); /* ← кеш */
           indBody.innerHTML = ind.map((x, i) => `
             <tr>
-              <td>${x.Category}</td>
-              <td>${x.Indicator}</td>
+              <td>${esc(x.Category)}</td>
+              <td>${esc(x.Indicator)}</td>
               <td>
                 <select id="i_sel_${i}">
                   <option value="yes">Checked</option>
@@ -640,8 +647,8 @@
       const ind = await getIndicatorsCached(selectedRoom, selectedSlot, 'Team'); /* ← кеш */
       teamBody.innerHTML = ind.map((x, i) => `
         <tr>
-          <td>${x.Category}</td>
-          <td>${x.Indicator}</td>
+          <td>${esc(x.Category)}</td>
+          <td>${esc(x.Indicator)}</td>
           <td>
             <select id="t_sel_${i}">
               <option value="yes">Checked</option>

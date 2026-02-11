@@ -1,0 +1,32 @@
+# KPI System - Apache Configuration
+
+# Deny access to sensitive files
+<FilesMatch "(config\.php|store\.json|\.log$|\.gitignore|\.htaccess)">
+    Require all denied
+</FilesMatch>
+
+# Allow data.json (read by frontend)
+<Files "data.json">
+    Require all granted
+</Files>
+
+# Disable directory listing
+Options -Indexes
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/svg+xml "access plus 1 week"
+    ExpiresByType image/jpeg "access plus 1 week"
+    ExpiresByType text/css "access plus 1 day"
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

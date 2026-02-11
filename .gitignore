@@ -1,0 +1,21 @@
+# KPI System
+
+# Config with real credentials (use config.sample.php as template)
+config.php
+
+# Runtime data files
+data.json
+store.json
+
+# Log files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
